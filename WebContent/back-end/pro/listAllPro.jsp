@@ -223,7 +223,9 @@
 							</c:forEach>
 						</ul>
 					</c:if>
-
+<%-- 					<%if ("update".equals(request.getAttribute("update"))) {%> --%>
+<%-- 					    <jsp:include page="listOnePro.jsp" flush="true" />	   --%>
+<%-- 					<%} %> --%>
 					<!-- 表單 -->
 					<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/pro/pro.do" name="form1" enctype="multipart/form-data">
 						<div class="container-fluid warp">
@@ -254,6 +256,7 @@
 											</div>
 										</div>
 
+                     
 										<!-- 圖片預覽 -->
 										<table class="table table-hover ">
 											<thead>

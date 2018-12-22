@@ -309,6 +309,7 @@ if ("update".equals(action)) { // 來自update_pro_input.jsp的請求
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("proVO", proVO); // ��Ʈwupdate���\��,���T����proVO����,�s�Jreq
+				req.setAttribute("update", "update");
 				String url = PATH_UPDATE;
 				RequestDispatcher successView = req.getRequestDispatcher(url); // �ק令�\��,���listOnePro.jsp
 				successView.forward(req, res);
