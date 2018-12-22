@@ -18,6 +18,13 @@ import sun.misc.IOUtils;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5  * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class ProServlet extends HttpServlet {
+	
+	private static final String PATH_LIST_ONE_PRO = "/back-end/pro/listOnePro.jsp";
+	private static final String PATH_UPDATE_PRO_INPUT = "/back-end/pro/update_pro_input.jsp";
+	private static final String PATH_UPDATE = "/back-end/pro/listAllPro.jsp";
+	private static final String PATH_LIST_ALL_PRO = "/back-end/pro/listAllPro.jsp";
+	private static final String PATH_ADDPRO = "/back-end/pro/addPro.jsp";
+	
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
@@ -48,7 +55,7 @@ if ("getOne_For_Display".equals(action)) { //來自select_page.jsp的請求
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/pro/select_page.jsp");
+							.getRequestDispatcher(PATH_LIST_ONE_PRO);
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -58,7 +65,7 @@ if ("getOne_For_Display".equals(action)) { //來自select_page.jsp的請求
 
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/pro/select_page.jsp");
+							.getRequestDispatcher(PATH_LIST_ONE_PRO);
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -72,28 +79,28 @@ if ("getOne_For_Display".equals(action)) { //來自select_page.jsp的請求
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/pro/select_page.jsp");
+							.getRequestDispatcher(PATH_LIST_ONE_PRO);
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("proVO", proVO); // 資料庫取出的proVO物件,存入req
-				String url = "/pro/listOneEmp.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // ���\��� listOneEmp.jsp
+				String url = PATH_LIST_ONE_PRO;
+				RequestDispatcher successView = req.getRequestDispatcher(url); // ���\��� listOnePro.jsp
 				successView.forward(req, res);
 
 				/***************************其他可能的錯誤處理*************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/pro/select_page.jsp");
+						.getRequestDispatcher(PATH_LIST_ONE_PRO);
 				failureView.forward(req, res);
 			}
 		}
 		
 		
-if ("getOne_For_Update".equals(action)) { // 來自listAllEmp.jsp的請求
+if ("getOne_For_Update".equals(action)) { // 來自listAllPro.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -113,21 +120,21 @@ if ("getOne_For_Update".equals(action)) { // 來自listAllEmp.jsp的請求
 								
 				/***************************3查詢完成,準備轉交(Send the Success view)************/
 				req.setAttribute("proVO", prodVO);         // 資料庫取出的proVO物件,存入req
-				String url = "/pro/update_emp_input.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
+				String url = PATH_UPDATE_PRO_INPUT;
+				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_pro_input.jsp
 				successView.forward(req, res);
 
 				/***************************其他可能的錯誤處理**********************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/pro/listAllEmp.jsp");
+						.getRequestDispatcher("/pro/listAllPro.jsp");
 				failureView.forward(req, res);
 			}
 		}
 		
 		
-if ("update".equals(action)) { // 來自update_emp_input.jsp的請求
+if ("update".equals(action)) { // 來自update_pro_input.jsp的請求
 			
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -288,7 +295,7 @@ if ("update".equals(action)) { // 來自update_emp_input.jsp的請求
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("proVO", proVO); // 含有輸入格式錯誤的proVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/pro/update_emp_input.jsp");
+							.getRequestDispatcher(PATH_UPDATE_PRO_INPUT);
 					failureView.forward(req, res);
 					return; //程式中斷
 				}
@@ -302,21 +309,21 @@ if ("update".equals(action)) { // 來自update_emp_input.jsp的請求
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("proVO", proVO); // ��Ʈwupdate���\��,���T����proVO����,�s�Jreq
-				String url = "/pro/listAllEmp.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // �ק令�\��,���listOneEmp.jsp
+				String url = PATH_UPDATE;
+				RequestDispatcher successView = req.getRequestDispatcher(url); // �ק令�\��,���listOnePro.jsp
 				successView.forward(req, res);
 
 				/***************************其他可能的錯誤處理*************************************/
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
 				System.out.println(errorMsgs);
-				RequestDispatcher failureView = req.getRequestDispatcher("/pro/update_emp_input.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher(PATH_UPDATE_PRO_INPUT);
 				failureView.forward(req, res);
 			}
 				
 		}
 
-if ("insert".equals(action)) { //來自addEmp.jsp的請求
+if ("insert".equals(action)) { //來自addPro.jsp的請求
 			
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -447,7 +454,7 @@ if ("insert".equals(action)) { //來自addEmp.jsp的請求
 					System.out.println(errorMsgs);
 					req.setAttribute("proVO", proVO); // 含有輸入格式錯誤的proVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/pro/addEmp.jsp");
+							.getRequestDispatcher(PATH_ADDPRO);
 					failureView.forward(req, res);
 					return;
 				}
@@ -459,20 +466,20 @@ if ("insert".equals(action)) { //來自addEmp.jsp的請求
 				
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/pro/listAllEmp.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+				String url = PATH_LIST_ALL_PRO;
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllPro.jsp
 				successView.forward(req, res);				
 				
 				/***************************其他可能的錯誤處理**********************************/
 			} catch (Exception e) {
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/pro/addEmp.jsp");
+						.getRequestDispatcher(PATH_ADDPRO);
 				failureView.forward(req, res);
 			}
 		}
 		
 		
-if ("delete".equals(action)) { // �Ӧ�listAllEmp.jsp
+if ("delete".equals(action)) { // �Ӧ�listAllPro.jsp
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -489,7 +496,7 @@ if ("delete".equals(action)) { // �Ӧ�listAllEmp.jsp
 				proSvc.deletePro(pro_no);
 				
 				/***************************3.刪除完成,準備轉交(Send the Success view)***********/								
-				String url = "/pro/listAllEmp.jsp";
+				String url = "/pro/listAllPro.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
 				successView.forward(req, res);
 				
@@ -497,7 +504,7 @@ if ("delete".equals(action)) { // �Ӧ�listAllEmp.jsp
 			} catch (Exception e) {
 				errorMsgs.add("刪除資料失敗:訂單或商品促銷專案未撤銷。"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/pro/listAllEmp.jsp");
+						.getRequestDispatcher("/pro/listAllPro.jsp");
 				failureView.forward(req, res);
 			}
 		}

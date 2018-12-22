@@ -1,9 +1,9 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <html>
 <head>
-<title>IBM Emp: Home</title>
+<title>IBM Emp: Home</title> 
 
 <style>
   table#table-1 {
@@ -35,11 +35,11 @@
 
 <p>This is the Home page for IBM Emp: Home</p>
 
-<h3>¸ê®Æ¬d¸ß:</h3>
+<h3>è³‡æ–™æŸ¥è©¢:</h3>
 	
-<%-- ¿ù»~ªí¦C --%>
+<%-- éŒ¯èª¤è¡¨åˆ— --%>
 <c:if test="${not empty errorMsgs}">
-	<font style="color:red">½Ğ­×¥¿¥H¤U¿ù»~:</font>
+	<font style="color:red">è«‹ä¿®æ­£ä»¥ä¸‹éŒ¯èª¤:</font>
 	<ul>
 	    <c:forEach var="message" items="${errorMsgs}">
 			<li style="color:red">${message}</li>
@@ -48,15 +48,15 @@
 </c:if>
 
 <ul>
-  <li><a href='listAllEmp.jsp'>List</a> all Emps.  <br><br></li>
+  <li><a href="<%= request.getContextPath()%>/back-end/pro/listAllPro.jsp">List</a> all Emps.  <br><br></li>
   
   
   <li>
-    <FORM METHOD="post" ACTION="pro.do" >
-        <b>¿é¤J­û¤u½s¸¹ (¦p7001):</b>
+    <FORM METHOD="post" ACTION="<%= request.getContextPath()%>/pro/pro.do" >
+        <b>è¼¸å…¥å“¡å·¥ç·¨è™Ÿ (å¦‚7001):</b>
         <input type="text" name="pro_no">
         <input type="hidden" name="action" value="getOne_For_Display">
-        <input type="submit" value="°e¥X">
+        <input type="submit" value="é€å‡º">
     </FORM>
   </li>
 
@@ -65,10 +65,10 @@
  
 
 
-<h3>­û¤uºŞ²z</h3>
+<h3>å“¡å·¥ç®¡ç†</h3>
 
 <ul>
-  <li><a href='addEmp.jsp'>Add</a> a new Emp.</li>
+  <li><a href='addPro.jsp'>Add</a> a new Emp.</li>
 </ul>
 
 </body>

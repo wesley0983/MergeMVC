@@ -1,9 +1,9 @@
 <%@page import="com.product.model.*"%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 
-<%-- ¦¹­¶½m²ß±Ä¥Î EL ªº¼gªk¨ú­È --%>
+<%-- æ­¤é ç·´ç¿’æ¡ç”¨ EL çš„å¯«æ³•å–å€¼ --%>
 
 <%
 	ProductService proSvc = new ProductService();
@@ -11,14 +11,14 @@
     pageContext.setAttribute("list",list);
 %>
 
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="">
 
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-	<title>Title Page</title>
+	<title>æˆ‘çš„å•†å“</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 	<!--[if lt IE 9]>
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -47,27 +47,27 @@
 		}
 
 		.dropdown-menu li:hover .sub-menu {
-			/*¸I¨ìnavbar·|¤U©Ô*/
+			/*ç¢°åˆ°navbaræœƒä¸‹æ‹‰*/
 			visibility: visible;
 		}
 
 		.dropdown:hover .dropdown-menu {
-			/*¸I¨ìnavbar·|¤U©Ô*/
+			/*ç¢°åˆ°navbaræœƒä¸‹æ‹‰*/
 			display: block;
 		}
 
 		.backgc {
-			/*­I´º©³¦â*/
+			/*èƒŒæ™¯åº•è‰²*/
 			background-color: #F6F6F6;
 		}
 
 		.navsize {
-			/*navbar¼e«×¤j¤p*/
+			/*navbarå¯¬åº¦å¤§å°*/
 			width: 1200px;
 		}
 
 		.warp {
-			/*°Ó«~¤º­¶*/
+			/*å•†å“å…§é */
 			box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, .09);
 			background-color: rgb(252, 252, 253);
 			padding: 20px 48px;
@@ -77,12 +77,12 @@
 		}
 
 		.warpwidth {
-			/*°Ó«~¤º­¶¤j¤p*/
+			/*å•†å“å…§é å¤§å°*/
 			width: 1104px;
 		}
 
 		.fontsize {
-			/*¤å¦r¼ĞÅÒ*/
+			/*æ–‡å­—æ¨™ç±¤*/
 			font-size: 18px;
 			font-weight: 400;
 			color: #000;
@@ -91,18 +91,18 @@
 		}
 
 		.fontsize_s {
-			/*¤å¦r¤º®e¼ĞÅÒ*/
+			/*æ–‡å­—å…§å®¹æ¨™ç±¤*/
 			min-height: 40px;
 			color: #666;
 		}
 
 		.valuesize {
-			/*value¼ĞÅÒ*/
+			/*valueæ¨™ç±¤*/
 			min-height: 40px;
 		}
 
 		.buttonsize {
-			/*«ö¶s¤j¤p*/
+			/*æŒ‰éˆ•å¤§å°*/
 			text-align: center;
 		}
 
@@ -111,7 +111,7 @@
 		}
 
 		.thwidth {
-			/*°Ó«~¦WºÙ¹Ï¤ù¤j¤p*/
+			/*å•†å“åç¨±åœ–ç‰‡å¤§å°*/
 			width: 250px;
 		}
 
@@ -130,6 +130,7 @@
 		.imgsize {
 			width: 80px;
 			height: auto;
+			float: left;
 		}
 		.pagecenter{
             text-align: center;
@@ -149,7 +150,7 @@
 							<div class="container">
 								<div class="navbar-header">
 									<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-										<span class="sr-only">¿ï³æ¤Á´«</span>
+										<span class="sr-only">é¸å–®åˆ‡æ›</span>
 										<span class="icon-bar"></span>
 										<span class="icon-bar"></span>
 										<span class="icon-bar"></span>
@@ -157,65 +158,65 @@
 									<a class="navbar-brand" href="#">SPORTGO</a>
 								</div>
 
-								<!-- ¤â¾÷ÁôÂÃ¿ï³æ°Ï -->
+								<!-- æ‰‹æ©Ÿéš±è—é¸å–®å€ -->
 								<div class="collapse navbar-collapse navbar-ex1-collapse ">
-									<!-- ¥ª¿ï³æ -->
+									<!-- å·¦é¸å–® -->
 									<ul class="nav navbar-nav">
 										<li class="active">
-											<a href="#">§Úªº°Ó«~</a>
+											<a href="#">æˆ‘çš„å•†å“</a>
 										</li>
 										<li>
-											<a href="#">§Úªº½æ³õ¤ÀÃş</a>
+											<a href="#">æˆ‘çš„è³£å ´åˆ†é¡</a>
 										</li>
 										<li>
-											<a href="#">§Úªº¾P°â</a>
+											<a href="#">æˆ‘çš„éŠ·å”®</a>
 										</li>
 										<li>
-											<a href="#">§Úªº¦æ¾P¬¡°Ê</a>
+											<a href="#">æˆ‘çš„è¡ŒéŠ·æ´»å‹•</a>
 										</li>
 										<li>
-											<a href="#">§Úªº¶i±b</a>
+											<a href="#">æˆ‘çš„é€²å¸³</a>
 										</li>
 										<li>
-											<a href="#">§Úªº¿ú¥]</a>
+											<a href="#">æˆ‘çš„éŒ¢åŒ…</a>
 										</li>
 										<li>
-											<a href="#">½æ³õ³]©w</a>
+											<a href="#">è³£å ´è¨­å®š</a>
 										</li>
 									</ul>
-									<!-- ¥k¿ï³æ -->
+									<!-- å³é¸å–® -->
 									<ul class="nav navbar-nav navbar-right">
 
 										<li>
 											<a href="#"></a>
 										</li>
 										<li>
-											<a href="#">­Ó¤H³]©w</a>
+											<a href="#">å€‹äººè¨­å®š</a>
 										</li>
 										<li class="dropdown">
-											<a href="#" class="dropdown-toggle" data-toggle="dropdown">ÁcÅé¤¤¤å
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown">ç¹é«”ä¸­æ–‡
 												<b class="caret"></b>
 											</a>
 											<ul class="dropdown-menu">
 												<li>
-													<a href="#">¤Á´«¦¨¶R®a</a>
+													<a href="#">åˆ‡æ›æˆè²·å®¶</a>
 												</li>
 												<li>
-													<a href="#">µn¥X</a>
+													<a href="#">ç™»å‡º</a>
 												</li>
 											</ul>
 										</li>
 									</ul>
 								</div>
-								<!-- ¤â¾÷ÁôÂÃ¿ï³æ°Ïµ²§ô -->
+								<!-- æ‰‹æ©Ÿéš±è—é¸å–®å€çµæŸ -->
 							</div>
 						</nav>
 					</div>
 				</div>
 
-				<%-- ¿ù»~ªí¦C --%>
+				<%-- éŒ¯èª¤è¡¨åˆ— --%>
 					<c:if test="${not empty errorMsgs}">
-						<font style="color:red">½Ğ­×¥¿¥H¤U¿ù»~:</font>
+						<font style="color:red">è«‹ä¿®æ­£ä»¥ä¸‹éŒ¯èª¤:</font>
 						<ul>
 							<c:forEach var="message" items="${errorMsgs}">
 								<li style="color:red">${message}</li>
@@ -223,26 +224,27 @@
 						</ul>
 					</c:if>
 
-					<!-- ªí³æ -->
-					<FORM METHOD="post" ACTION="pro.do" name="form1" enctype="multipart/form-data">
+					<!-- è¡¨å–® -->
+					<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/pro/pro.do" name="form1" enctype="multipart/form-data">
 						<div class="container-fluid warp">
 							<div class="row">
-								<!-- ®e¾¹°Ï -->
+								<!-- å®¹å™¨å€ -->
 								<div class="container-fluid warpwidth">
 									<div class="row">
 										<div>
-											<h2 class="fontsize">?¥ó°Ó«~</h2>
+											<h2 class="fontsize">?ä»¶å•†å“</h2>
 										</div>
-										<!-- ÃöÁä¦r·j´M -->
+										<!-- é—œéµå­—æœå°‹ -->
 										<div class="container">
 											<div class="row">
 												<div class="col-xs-12 col-sm-4">
 													<div class="row">
-														<!-- ·j´Mªí³æ -->
+														<!-- æœå°‹è¡¨å–® -->
+														<div><%@ include file="page1.file" %></div>
 														<div class="input-group">
-															<input type="text" class="form-control" placeholder="½Ğ¿é¤JÃöÁä¦r">
+															<input type="text" class="form-control" placeholder="è«‹è¼¸å…¥é—œéµå­—">
 															<span class="input-group-btn">
-																<button class="btn btn-info" type="button">·j´M</button>
+																<button class="btn btn-info" type="button">æœå°‹</button>
 															</span>
 														</div>
 													</div>
@@ -252,18 +254,17 @@
 											</div>
 										</div>
 
-										<!-- ¹Ï¤ù¹wÄı -->
-										<div><%@ include file="page1.file" %></div>
+										<!-- åœ–ç‰‡é è¦½ -->
 										<table class="table table-hover ">
 											<thead>
 												<tr class="tablebgc">
-													<th class="thwidth">°Ó«~¦WºÙ¹Ï¤ù</th>
-													<th>°Ó«~½s¸¹</th>
-													<th>°Ó«~Ãş§O</th>
-													<th>°Ó«~³æ»ù</th>
-													<th>°Ó«~®w¦s</th>
-													<th>°Ó«~ª¬ºA</th>
-													<th>¾Ş§@</th>
+													<th class="thwidth">å•†å“åç¨±åœ–ç‰‡</th>
+													<th>å•†å“ç·¨è™Ÿ</th>
+													<th>å•†å“é¡åˆ¥</th>
+													<th>å•†å“å–®åƒ¹</th>
+													<th>å•†å“åº«å­˜</th>
+													<th>å•†å“ç‹€æ…‹</th>
+													<th>æ“ä½œ</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -271,36 +272,39 @@
 													<jsp:useBean id="productClassSvc" scope="page" class="com.productclass.model.ProductClassService" />
 													<c:forEach var="proVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 														<tr>
-															<!-- °Ó«~¹Ï¤ù¦WºÙ -->
+															<!-- å•†å“åœ–ç‰‡åç¨± -->
 															<td style="text-align: left;">
-																<img class="imgsize" src="<%=request.getContextPath()%>/pro/proImg.do?pro_no=${proVO.pro_no}"> ${proVO.pro_name}
+																<div style="height: 80px">
+																	<img class="imgsize" src="<%=request.getContextPath()%>/pro/proImg.do?pro_no=${proVO.pro_no}">
+																 	${proVO.pro_name}
+																 </div>
 															</td>
-															<!-- °Ó«~½s¸¹ -->
+															<!-- å•†å“ç·¨è™Ÿ -->
 															<td>${proVO.pro_no}</td>
-															<!-- °Ó«~Ãş§O -->
+															<!-- å•†å“é¡åˆ¥ -->
 															<td>
 																<c:forEach var="productClassVO" items="${productClassSvc.all}">
 																	${(proVO.pro_classid == productClassVO.pro_classid)?productClassVO.pro_classname:''}
 																</c:forEach>
 															</td>
-															<!-- °Ó«~³æ»ù -->
+															<!-- å•†å“å–®åƒ¹ -->
 															<td>
 																${proVO.pro_bonus}
 															</td>
-															<!-- °Ó«~®w¦s -->
+															<!-- å•†å“åº«å­˜ -->
 															<td>
 																${proVO.pro_stock}
 															</td>
-															<!-- °Ó«~ª¬ºA -->
+															<!-- å•†å“ç‹€æ…‹ -->
 															<td>
 																${proVO.pro_shelve}
 															</td>
-															<!-- ¤U©Ô¦¡«ö¶s -->
+															<!-- ä¸‹æ‹‰å¼æŒ‰éˆ• -->
 															<td>
 																<div class="btn-group">
 																	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 																		<i class="fa fa-pencil-square">
-																			½s¿è
+																			ç·¨è¼¯
 																		</i>
 																		<span class="caret"></span>
 																	</button>
@@ -310,20 +314,20 @@
 																		</li>
 																		<li>
 																			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/pro/pro.do" style="margin-bottom: 0px;">
-																				<input type="submit" value="­×§ï">
+																				<input type="submit" value="ä¿®æ”¹">
 																				<input type="hidden" name="pro_no" value="${proVO.pro_no}">
 																				<input type="hidden" name="action" value="getOne_For_Update">
 																			</FORM>
 																		</li>
 																		<li>
-																			<a href="#">¤W¬[</a>
+																			<a href="#">ä¸Šæ¶</a>
 																		</li>
 																		<li>
-																			<a href="#">¤U¬[</a>
+																			<a href="#">ä¸‹æ¶</a>
 																		</li>
 																		<li class="divider"></li>
 																		<li>
-																			<a href="#">¥¼³]¸m</a>
+																			<a href="#">æœªè¨­ç½®</a>
 																		</li>
 																	</ul>
 																</div>
@@ -349,7 +353,7 @@
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 			<script type="text/javascript">
 				// document.getElementById("display").style.display = 'none';
-				//    $(function() {  //±N¹Ï¤ù¹wÄı
+				//    $(function() {  //å°‡åœ–ç‰‡é è¦½
 				//    	$('input[type=file]').change(function() {
 				//      	var input = $(this);
 				//      	document.getElementById("preset").style.display = 'none';
