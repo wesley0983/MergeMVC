@@ -1,10 +1,15 @@
+<%@page import="java.util.List"%>
 <%@page import="com.product.model.*"%>
-	<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-		<%
+<%
+    ProductService proSvc = new ProductService();
 	ProductVO proVO = (ProductVO) request.getAttribute("proVO"); //EmpServlet.java(Concroller), 存入req的empVO物件
-	pageContext.setAttribute("list",proVO);
+	List<ProductVO> list = proSvc.getAll();
+    pageContext.setAttribute("list",list);
 %>
+<jsp:useBean id="proclassSvc" scope="page" class="com.productclass.model.ProductClassService" />
+
 
 			<!DOCTYPE html>
 			<html lang="">
@@ -141,7 +146,7 @@
 			<body>
 
 
-				<!-- 表單 -->
+				<c:forEach var="proVO" items="${list}">
 
 				
 						<!-- 容器區 -->
@@ -172,7 +177,7 @@
 												<td><%=proVO.getPro_no()%></td>
 												<!-- 商品類別 -->
 												<td>
-													<%=proVO.getPro_classid()%>
+													${proclassSvc.getOneProductClass(proVO.pro_classid).pro_classname }
 												</td>
 												<!-- 商品單價 -->
 												<td>
@@ -224,12 +229,8 @@
 								</table>
 							</div>
 						</div>
-					
+					</c:forEach>
 
-
-
-				<script src="https://code.jquery.com/jquery.js"></script>
-				<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 			</body>
 
 			</html>

@@ -10,7 +10,7 @@
     List<ProductVO> list = proSvc.getAll();
     pageContext.setAttribute("list",list);
 %>
-
+<jsp:useBean id="proclassSvc" scope="page" class="com.productclass.model.ProductClassService" />
 <!DOCTYPE html> 
 <html lang="">
 
@@ -223,9 +223,7 @@
 							</c:forEach>
 						</ul>
 					</c:if>
-<%-- 					<%if ("update".equals(request.getAttribute("update"))) {%> --%>
-<%-- 					    <jsp:include page="listOnePro.jsp" flush="true" />	   --%>
-<%-- 					<%} %> --%>
+					
 					<!-- 表單 -->
 					<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/pro/pro.do" name="form1" enctype="multipart/form-data">
 						<div class="container-fluid warp">
@@ -255,7 +253,10 @@
 												<div class="col-xs-12 col-sm-4"></div>
 											</div>
 										</div>
-
+										
+										<%if ("update".equals(request.getAttribute("update"))) {%>
+										    <jsp:include page="listOnePro.jsp" flush="true" />	  
+										<%} %>
                      
 										<!-- 圖片預覽 -->
 										<table class="table table-hover ">
@@ -286,9 +287,7 @@
 															<td>${proVO.pro_no}</td>
 															<!-- 商品類別 -->
 															<td>
-																<c:forEach var="productClassVO" items="${productClassSvc.all}">
-																	${(proVO.pro_classid == productClassVO.pro_classid)?productClassVO.pro_classname:''}
-																</c:forEach>
+															    ${proclassSvc.getOneProductClass(proVO.pro_classid).pro_classname }
 															</td>
 															<!-- 商品單價 -->
 															<td>
