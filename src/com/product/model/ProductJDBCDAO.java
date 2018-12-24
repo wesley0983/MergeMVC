@@ -403,6 +403,7 @@ public class ProductJDBCDAO implements ProductDAO_interface{
 			          + "order by pro_no";
 			
 			ps = con.prepareStatement(finalSQL);
+			System.out.println("●●finalSQL(by DAO) = "+finalSQL);
 			rs = ps.executeQuery();
 			
 			while (rs.next()) {

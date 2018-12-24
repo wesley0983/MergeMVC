@@ -508,7 +508,7 @@ if ("delete".equals(action)) { // �Ӧ�listAllPro.jsp
 				failureView.forward(req, res);
 			}
 		}
-		if ("listEmps_ByCompositeQuery".equals(action)) { //來自listAllPro的複合查詢請求
+if ("pro_ByCompositeQuery".equals(action)) { //來自listAllPro的複合查詢請求
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
@@ -520,14 +520,15 @@ if ("delete".equals(action)) { // �Ӧ�listAllPro.jsp
 				//採用Map<String,String[]> getParameterMap()的方法 
 				//注意:an immutable java.util.Map 
 				Map<String, String[]> map = req.getParameterMap();
-				
+				System.out.println(map);
 				/***************************2.開始複合查詢***************************************/
 				ProductService proSvc = new ProductService();
 				List<ProductVO> list  = proSvc.getAll(map);
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
 				req.setAttribute("pro_ByCompositeQuery", list); // 資料庫取出的list物件,存入request
-				RequestDispatcher successView = req.getRequestDispatcher(PATH_LIST_ALL_PRO); // 成功轉交listEmps_ByCompositeQuery.jsp
+				req.setAttribute("findBy", "findBy");
+				RequestDispatcher successView = req.getRequestDispatcher(PATH_LIST_ALL_PRO); // 成功轉交listAllPro.jsp
 				successView.forward(req, res);
 				
 				/***************************其他可能的錯誤處理**********************************/

@@ -23,7 +23,7 @@ public class jdbcUtil_CompositeQuery_Pro {
 			aCondition = columnName + " like '%" + value + "%'";
 		else if ("hiredate".equals(columnName))                          // 用於Oracle的date
 			aCondition = "to_char(" + columnName + ",'yyyy-mm-dd')='" + value + "'";
-
+		System.out.println(aCondition);
 		return aCondition + " ";
 	}
 
@@ -36,7 +36,7 @@ public class jdbcUtil_CompositeQuery_Pro {
 			if (value != null && value.trim().length() != 0	&& !"action".equals(key)) {
 				count++;
 				String aCondition = get_aCondition_For_Oracle(key, value.trim());
-
+                
 				if (count == 1)
 					whereCondition.append(" where " + aCondition);
 				else
