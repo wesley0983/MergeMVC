@@ -223,128 +223,186 @@
 							</c:forEach>
 						</ul>
 					</c:if>
-					
-					<!-- 表單 -->
-					<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/pro/pro.do" name="form1" enctype="multipart/form-data">
-						<div class="container-fluid warp">
-							<div class="row">
-								<!-- 容器區 -->
-								<div class="container-fluid warpwidth">
-									<div class="row">
-										<div>
-											<h2 class="fontsize">?件商品</h2>
-										</div>
-										<!-- 關鍵字搜尋 -->
-										<div class="container">
+										<div class="container-fluid">
 											<div class="row">
-												<div class="col-xs-12 col-sm-4">
-													<div class="row">
-														<!-- 搜尋表單 -->
-														<div><%@ include file="page1.file" %></div>
-														<div class="input-group">
-															<input type="text" class="form-control" placeholder="請輸入關鍵字">
-															<span class="input-group-btn">
-																<button class="btn btn-info" type="button">搜尋</button>
-															</span>
-														</div>
+												<!-- 複合查詢 -->
+												<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/pro/pro.do" name="form1">
+													<div class="col-xs-12 col-sm-2 aa">
+														<ul class="list-group">
+															<li class="list-group-item">
+																<div>
+																	商品編號
+																</div>
+																<div>
+																	<input type="text" name="pro_no">
+																</div>
+															</li>
+															<li class="list-group-item">
+																商品類別編號
+															    <select size="1" name="pro_classid" class="form-control">
+																    
+															          <option value="">
+															         <c:forEach var="proclassVO" items="${proclassSvc.all}" > 
+															          <option value="${proclassVO.pro_classid}">${proclassVO.pro_classname}
+															         </c:forEach>   
+															       
+															    </select>
+															</li>
+															<li class="list-group-item">
+																<div>
+																	商品名稱
+																</div>
+																<div>
+																	<input type="text" name="pro_name">
+																</div>
+															</li>
+															<li class="list-group-item">
+																<div>
+																	商品單價
+																</div>
+																<div>
+																	<input type="text" name="pro_bonus">
+																</div>
+															</li>
+															<li class="list-group-item">
+																<div>
+																	商品狀態
+																</div>
+																<div>
+																	<input type="text" name="pro_shelve">
+																</div>
+															</li>
+														</ul>
+														 <input type="submit" value="送出">
+       													 <input type="hidden" name="action" value="pro_ByCompositeQuery">
 													</div>
+												</FORM>
+												<div class="col-xs-12 col-sm-9 bb">
+													<!-- 表單 -->
+													<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/pro/pro.do" name="form1" enctype="multipart/form-data">
+														<div class="container-fluid warp">
+															<div class="row">
+																<!-- 容器區 -->
+																<div class="container-fluid warpwidth">
+																	<div class="row">
+																		<div>
+																			<h2 class="fontsize">?件商品</h2>
+																		</div>
+																		<!-- 關鍵字搜尋 -->
+																		<div class="container">
+																			<div class="row">
+																				<div class="col-xs-12 col-sm-4">
+																					<div class="row">
+																						<!-- 搜尋表單 -->
+																						<div>
+																							<%@ include file="page1.file" %>
+																						</div>
+																						<div class="input-group">
+																							<input type="text" class="form-control" placeholder="請輸入關鍵字">
+																							<span class="input-group-btn">
+																								<button class="btn btn-info" type="button">搜尋</button>
+																							</span>
+																						</div>
+																					</div>
+																				</div>
+																				<div class="col-xs-12 col-sm-4"></div>
+																				<div class="col-xs-12 col-sm-4"></div>
+																			</div>
+																		</div>
+			                                                            <!-- include修改後的單筆商品 -->
+																		<%if ("update".equals(request.getAttribute("update"))) {%>
+																			<jsp:include page="listOnePro.jsp" flush="true" />
+																		<%} %>
+
+																				<!-- 圖片預覽 -->
+																				<table class="table table-hover ">
+																					<thead>
+																						<tr class="tablebgc">
+																							<th class="thwidth">商品名稱圖片</th>
+																							<th>商品編號</th>
+																							<th>商品類別</th>
+																							<th>商品單價</th>
+																							<th>商品庫存</th>
+																							<th>商品狀態</th>
+																							<th>操作</th>
+																						</tr>
+																					</thead>
+																					<tbody>
+																						<jsp:useBean id="productClassSvc" scope="page" class="com.productclass.model.ProductClassService" />
+																						<c:forEach var="proVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+																							<tr>
+																								<!-- 商品圖片名稱 -->
+																								<td style="text-align: left;">
+																									<div style="height: 80px">
+																										<img class="imgsize" src="<%=request.getContextPath()%>/pro/proImg.do?pro_no=${proVO.pro_no}"> ${proVO.pro_name}
+																									</div>
+																								</td>
+																								<!-- 商品編號 -->
+																								<td>${proVO.pro_no}</td>
+																								<!-- 商品類別 -->
+																								<td>
+																									${proclassSvc.getOneProductClass(proVO.pro_classid).pro_classname }
+																								</td>
+																								<!-- 商品單價 -->
+																								<td>
+																									${proVO.pro_bonus}
+																								</td>
+																								<!-- 商品庫存 -->
+																								<td>
+																									${proVO.pro_stock}
+																								</td>
+																								<!-- 商品狀態 -->
+																								<td>
+																									${proVO.pro_shelve}
+																								</td>
+																								<!-- 下拉式按鈕 -->
+																								<td>
+																									<div class="btn-group">
+																										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+																											<i class="fa fa-pencil-square">
+																												編輯
+																											</i>
+																											<span class="caret"></span>
+																										</button>
+																										<ul class="dropdown-menu" role="menu">
+																											<li>
+																												<a href="#"></a>
+																											</li>
+																											<li>
+																												<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/pro/pro.do" style="margin-bottom: 0px;">
+																													<input type="submit" value="修改">
+																													<input type="hidden" name="pro_no" value="${proVO.pro_no}">
+																													<input type="hidden" name="action" value="getOne_For_Update">
+																												</FORM>
+																											</li>
+																											<li>
+																												<a href="#">上架</a>
+																											</li>
+																											<li>
+																												<a href="#">下架</a>
+																											</li>
+																											<li class="divider"></li>
+																											<li>
+																												<a href="#">未設置</a>
+																											</li>
+																										</ul>
+																									</div>
+																								</td>
+																							</tr>
+																						</c:forEach>
+
+																					</tbody>
+																				</table>
+																				<%@ include file="page2.file" %>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</FORM>			
 												</div>
-												<div class="col-xs-12 col-sm-4"></div>
-												<div class="col-xs-12 col-sm-4"></div>
+												<div class="col-xs-12 col-sm-1 cc"></div>
 											</div>
 										</div>
-										
-										<%if ("update".equals(request.getAttribute("update"))) {%>
-										    <jsp:include page="listOnePro.jsp" flush="true" />	  
-										<%} %>
-                     
-										<!-- 圖片預覽 -->
-										<table class="table table-hover ">
-											<thead>
-												<tr class="tablebgc">
-													<th class="thwidth">商品名稱圖片</th>
-													<th>商品編號</th>
-													<th>商品類別</th>
-													<th>商品單價</th>
-													<th>商品庫存</th>
-													<th>商品狀態</th>
-													<th>操作</th>
-												</tr>
-											</thead>
-											<tbody>
-												
-													<jsp:useBean id="productClassSvc" scope="page" class="com.productclass.model.ProductClassService" />
-													<c:forEach var="proVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-														<tr>
-															<!-- 商品圖片名稱 -->
-															<td style="text-align: left;">
-																<div style="height: 80px">
-																	<img class="imgsize" src="<%=request.getContextPath()%>/pro/proImg.do?pro_no=${proVO.pro_no}">
-																 	${proVO.pro_name}
-																 </div>
-															</td>
-															<!-- 商品編號 -->
-															<td>${proVO.pro_no}</td>
-															<!-- 商品類別 -->
-															<td>
-															    ${proclassSvc.getOneProductClass(proVO.pro_classid).pro_classname }
-															</td>
-															<!-- 商品單價 -->
-															<td>
-																${proVO.pro_bonus}
-															</td>
-															<!-- 商品庫存 -->
-															<td>
-																${proVO.pro_stock}
-															</td>
-															<!-- 商品狀態 -->
-															<td>
-																${proVO.pro_shelve}
-															</td>
-															<!-- 下拉式按鈕 -->
-															<td>
-																<div class="btn-group">
-																	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-																		<i class="fa fa-pencil-square">
-																			編輯
-																		</i>
-																		<span class="caret"></span>
-																	</button>
-																	<ul class="dropdown-menu" role="menu">
-																		<li>
-																			<a href="#"></a>
-																		</li>
-																		<li>
-																			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/pro/pro.do" style="margin-bottom: 0px;">
-																				<input type="submit" value="修改">
-																				<input type="hidden" name="pro_no" value="${proVO.pro_no}">
-																				<input type="hidden" name="action" value="getOne_For_Update">
-																			</FORM>
-																		</li>
-																		<li>
-																			<a href="#">上架</a>
-																		</li>
-																		<li>
-																			<a href="#">下架</a>
-																		</li>
-																		<li class="divider"></li>
-																		<li>
-																			<a href="#">未設置</a>
-																		</li>
-																	</ul>
-																</div>
-															</td>
-														</tr>
-													</c:forEach>
-													
-											</tbody>
-										</table>
-										<%@ include file="page2.file" %>
-									</div>
-								</div>
-							</div>
-						</div>
-					</FORM>
 
 
 			</div>

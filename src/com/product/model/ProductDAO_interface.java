@@ -1,6 +1,9 @@
 package com.product.model;
 
 import java.util.List;
+import java.util.Map;
+
+
 
 public interface ProductDAO_interface {
 	//新增
@@ -15,5 +18,7 @@ public interface ProductDAO_interface {
 	ProductVO findByPK (String pro_no);
 	//全部查詢    
     public abstract List<ProductVO> getAll();
+    //複合查詢
+    public abstract List<ProductVO> getAll(Map<String, String[]> map);
 
 }

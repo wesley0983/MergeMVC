@@ -8,7 +8,6 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
 
 
-
 import com.product.model.ProductService;
 import com.product.model.ProductVO;
 import com.productclass.model.ProductClassService;
@@ -509,6 +508,38 @@ if ("delete".equals(action)) { // �Ӧ�listAllPro.jsp
 				failureView.forward(req, res);
 			}
 		}
+		if ("listEmps_ByCompositeQuery".equals(action)) { //來自listAllPro的複合查詢請求
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				
+				/***************************1.將輸入資料轉為Map**********************************/ 
+				//採用Map<String,String[]> getParameterMap()的方法 
+				//注意:an immutable java.util.Map 
+				Map<String, String[]> map = req.getParameterMap();
+				
+				/***************************2.開始複合查詢***************************************/
+				ProductService proSvc = new ProductService();
+				List<ProductVO> list  = proSvc.getAll(map);
+				
+				/***************************3.查詢完成,準備轉交(Send the Success view)************/
+				req.setAttribute("pro_ByCompositeQuery", list); // 資料庫取出的list物件,存入request
+				RequestDispatcher successView = req.getRequestDispatcher(PATH_LIST_ALL_PRO); // 成功轉交listEmps_ByCompositeQuery.jsp
+				successView.forward(req, res);
+				
+				/***************************其他可能的錯誤處理**********************************/
+			} catch (Exception e) {
+				errorMsgs.add(e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher(PATH_LIST_ALL_PRO);
+				failureView.forward(req, res);
+			}
+		}
+
+
 	}
 
     public static byte[] Photo (InputStream in) {  //將inputStream to byte[]

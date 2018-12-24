@@ -1,6 +1,7 @@
 package com.product.model;
 
 import java.util.List;
+import java.util.Map;
 
 import com.productclass.model.ProductClassVO;
 
@@ -72,6 +73,10 @@ public class ProductService {
 	public List<ProductVO> getAll(){
 		return proDAO.getAll();
 	} 
+	
+	public List<ProductVO> getAll(Map<String, String[]> map) {
+		return proDAO.getAll(map);
+	}
 	
 	public void deletePro (String pro_no) {
 		proDAO.delete(pro_no);
