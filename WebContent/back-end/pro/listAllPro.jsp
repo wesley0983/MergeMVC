@@ -13,7 +13,7 @@
 %>
 <% if ("findBy".equals(request.getAttribute("findBy"))) { %>
 	<jsp:useBean id="pro_ByCompositeQuery" scope="request" type="java.util.List<ProductVO>" />
-	<%  list = request.getAttribute("pro_ByCompositeQuery"); %>
+<%-- 	<%  list = request.getAttribute("pro_ByCompositeQuery"); %> --%>
 	
     <h1>有執行</h1>
 <%} else { %>
