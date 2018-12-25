@@ -526,23 +526,35 @@ if ("pro_ByCompositeQuery".equals(action)) { //來自listAllPro的複合查詢�
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
-				
+				String requestURL = req.getParameter("requestURL");  //來源的路徑請求
 				/***************************1.將輸入資料轉為Map**********************************/ 
 				//採用Map<String,String[]> getParameterMap()的方法 
 				//注意:an immutable java.util.Map 
-				Map<String, String[]> map = req.getParameterMap();
+				
+				HttpSession session = req.getSession();
+				Map<String, String[]> map = (Map<String, String[]>)session.getAttribute("map");
+				if (req.getParameter("whichPage") == null){
+					HashMap<String, String[]> map1 = new HashMap<String, String[]>(req.getParameterMap());
+					session.setAttribute("map",map1);
+					map = map1;
+				} 
+				System.out.println(requestURL);
 				
 				/***************************2.開始複合查詢***************************************/
 				ProductService proSvc = new ProductService();
 				List<ProductVO> list  = proSvc.getAll(map);
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
-//				HttpSession session = req.getSession();
-//				session.setAttribute("findBy", "findBy");
 				req.setAttribute("pro_ByCompositeQuery", list); // 資料庫取出的list物件,存入request
 				req.setAttribute("findBy", "findBy");
+				String url = null;
+				if("PATH_FRONT_LIST_ALL_PRO".equals(requestURL)) {
+					url = PATH_FRONT_LIST_ALL_PRO;
+				} else {
+					url = PATH_LIST_ALL_PRO;
+				}
 				
-				RequestDispatcher successView = req.getRequestDispatcher(PATH_LIST_ALL_PRO); // 成功轉交listAllPro.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listAllPro.jsp
 				successView.forward(req, res);
 				
 				/***************************其他可能的錯誤處理**********************************/

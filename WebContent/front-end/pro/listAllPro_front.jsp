@@ -10,7 +10,7 @@
 	pageContext.setAttribute("list",list);
 %>
 
-
+<jsp:useBean id="proclassSvc" scope="page" class="com.productclass.model.ProductClassService" />
 <!DOCTYPE html> 
 <html lang="">
 
@@ -315,7 +315,8 @@ overflow: hidden;
 											</div>
 										</li>
 									</ul>
-									 <input type="submit" value="送出">
+										 <input type="submit" value="送出">
+										 <input type="hidden" name="requestURL" value="<%=request.getServletPath()%>">
 										 <input type="hidden" name="action" value="pro_ByCompositeQuery">
 								</div>
 							</FORM>
@@ -333,7 +334,7 @@ overflow: hidden;
 										<li class="active">媽我上電視了</li>
 									</ol>
 								<!-- 商品列表 -->
-								<%@ include file="page1.file" %>
+								<%@ include file="page/page1_ByCompositeQuery.file" %>
 									    <table tablesize>
 									    	<tbody>
 									    		<tr>
@@ -358,7 +359,7 @@ overflow: hidden;
 									    		</tr>
 									    	</tbody>
 									    </table>
-									    <%@ include file="page2.file" %>
+									    <%@ include file="page/page2_ByCompositeQuery.file" %>
 	                        </div>
 
 

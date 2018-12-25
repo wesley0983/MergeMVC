@@ -304,7 +304,7 @@
 																					<div class="row">
 																						<!-- 搜尋表單 -->
 																						<div>
-																							<%@ include file="page1.file" %>
+																		
 																						</div>
 																						<div class="input-group">
 																							<input type="text" class="form-control" placeholder="請輸入關鍵字">
@@ -325,7 +325,7 @@
 																		<%if ("update".equals(request.getAttribute("update"))) {%>
 																			<jsp:include page="listOnePro.jsp" flush="true" />
 																		<%} %>
-
+																		<%@ include file="page/page1_ByCompositeQuery.file" %>
 																				<!-- 圖片預覽 -->
 																				<table class="table table-hover ">
 																					<thead>
@@ -405,7 +405,7 @@
 
 																					</tbody>
 																				</table>
-																				<%@ include file="page2.file" %>
+																				<%@ include file="page/page2_ByCompositeQuery.file" %>
 																	</div>
 																</div>
 															</div>
