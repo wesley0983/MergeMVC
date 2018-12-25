@@ -17,13 +17,14 @@ import sun.misc.IOUtils;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5  * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class ProServlet extends HttpServlet {
-	
+	//-------------------------後端路徑---------------------//
 	private static final String PATH_LIST_ONE_PRO = "/back-end/pro/listOnePro.jsp";
 	private static final String PATH_UPDATE_PRO_INPUT = "/back-end/pro/update_pro_input.jsp";
-	private static final String PATH_UPDATE = "/back-end/pro/listAllPro.jsp";
 	private static final String PATH_LIST_ALL_PRO = "/back-end/pro/listAllPro.jsp";
 	private static final String PATH_ADDPRO = "/back-end/pro/addPro.jsp";
-	
+	//-------------------------前端路徑---------------------//
+	private static final String PATH_FRONT_LIST_ALL_PRO = "/front-end/pro/listAllPro_front.jsp";
+	private static final String PATH_FRONT_LIST_ONE_PRO = "/front-end/pro/listOnePro_front.jsp";
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
@@ -43,10 +44,11 @@ if ("getOne_For_Display".equals(action)) { //來自select_page.jsp的請求
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
-
+			String requestURL = req.getParameter("requestURL");  //來源的路徑請求
 			try {
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
 				String str = req.getParameter("pro_no");
+				
 
 				if (str == null || (str.trim()).length() == 0) {
 					errorMsgs.add("請輸入商品編號");
@@ -85,7 +87,16 @@ if ("getOne_For_Display".equals(action)) { //來自select_page.jsp的請求
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("proVO", proVO); // 資料庫取出的proVO物件,存入req
-				String url = PATH_LIST_ONE_PRO;
+				String url = null;
+				if(PATH_FRONT_LIST_ALL_PRO.equals(requestURL)) {  //前端與後端的導向不同
+					url = PATH_FRONT_LIST_ONE_PRO;
+
+				}else {
+					url = PATH_LIST_ONE_PRO;
+
+				}
+				
+				
 				RequestDispatcher successView = req.getRequestDispatcher(url); // ���\��� listOnePro.jsp
 				successView.forward(req, res);
 
@@ -309,7 +320,7 @@ if ("update".equals(action)) { // 來自update_pro_input.jsp的請求
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("proVO", proVO); // ��Ʈwupdate���\��,���T����proVO����,�s�Jreq
 				req.setAttribute("update", "update");
-				String url = PATH_UPDATE;
+				String url = PATH_LIST_ALL_PRO;
 				RequestDispatcher successView = req.getRequestDispatcher(url); // �ק令�\��,���listOnePro.jsp
 				successView.forward(req, res);
 
@@ -520,14 +531,17 @@ if ("pro_ByCompositeQuery".equals(action)) { //來自listAllPro的複合查詢�
 				//採用Map<String,String[]> getParameterMap()的方法 
 				//注意:an immutable java.util.Map 
 				Map<String, String[]> map = req.getParameterMap();
-				System.out.println(map);
+				
 				/***************************2.開始複合查詢***************************************/
 				ProductService proSvc = new ProductService();
 				List<ProductVO> list  = proSvc.getAll(map);
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
+//				HttpSession session = req.getSession();
+//				session.setAttribute("findBy", "findBy");
 				req.setAttribute("pro_ByCompositeQuery", list); // 資料庫取出的list物件,存入request
 				req.setAttribute("findBy", "findBy");
+				
 				RequestDispatcher successView = req.getRequestDispatcher(PATH_LIST_ALL_PRO); // 成功轉交listAllPro.jsp
 				successView.forward(req, res);
 				

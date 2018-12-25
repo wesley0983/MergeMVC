@@ -68,7 +68,7 @@
 <h3>員工管理</h3>
 
 <ul>
-  <li><a href='addPro.jsp'>Add</a> a new Emp.</li>
+  <li><a href="<%= request.getContextPath()%>/back-end/pro/addPro.jsp">Add</a> a new Emp.</li>
 </ul>
 
 </body>

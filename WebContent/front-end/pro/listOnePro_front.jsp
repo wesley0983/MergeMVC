@@ -1,0 +1,312 @@
+<%@page import="java.util.List"%>
+<%@page import="com.product.model.*"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%
+    ProductService proSvc = new ProductService();
+	ProductVO proVO = (ProductVO) request.getAttribute("proVO"); //EmpServlet.java(Concroller), 存入req的empVO物件
+	List<ProductVO> list = proSvc.getAll();
+    pageContext.setAttribute("list",list);
+%>
+<jsp:useBean id="proclassSvc" scope="page" class="com.productclass.model.ProductClassService" />
+
+
+<!DOCTYPE html>
+<html lang="">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+		<title>商品修改</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+		<!--[if lt IE 9]>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	<style type="text/css">
+		.aa {
+			background-color: #faa;
+            height: 480px;
+		}
+
+		.bb {
+			height: 480px;
+			background-color: #afa;
+		}
+
+		.cc {
+			
+			background-color: #aaf;
+		}
+
+		.dd {
+			height: 300px;
+			background-color: #aaa;
+		}
+		.ee{
+            background-color: #0f5;
+		}
+		.ff{
+			background-color: #E4D10F;
+		}
+		.dropdown-menu li:hover .sub-menu { /*碰到navbar會下拉*/
+			visibility: visible;
+		}
+		.dropdown:hover .dropdown-menu { /*碰到navbar會下拉*/
+			display: block;
+		}
+
+		.backgc { /*背景底色*/
+			background-color: #F6F6F6;
+		}
+
+		.navsize{ /*navbar寬度大小*/
+            width: 1200px;
+		}
+        
+		.warp { /*商品內頁*/
+			box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, .09);
+			background-color: #D9D8D8;
+			padding: 20px 48px;
+			/*width: 1200px;*/
+			margin: auto;
+            
+		}
+		
+		.warpwidth{ /*商品內頁大小*/
+			width: 1104px;
+		}
+		.fontsize{ /*文字標籤*/
+		    font-size: 18px;
+		    font-weight: 400;
+		    color: #000;
+		    margin: 30px 0 15px;
+		    text-align: left;
+		}
+		.fontsize_s{ /*文字內容標籤*/
+			min-height: 40px;
+    		color: #666;
+		}
+        .valuesize{ /*value標籤*/
+        	min-height: 40px;
+        }
+        .buttonsize{ /*按鈕大小*/
+        	text-align: center;
+        }
+        .tablebgc{
+        	background-color: #F7F5F5;
+        }
+        .thwidth{ /*商品名稱圖片大小*/
+        	width: 250px;
+        }
+        table{
+		    border-collapse:separate;
+		    border-spacing:0 0.5rem;
+        }
+
+        th {  /*置中*/
+        	text-align: center;
+        }
+        td {  /*置中*/
+        	text-align: center;
+        }
+        .divfont{  /*div文字置中調整*/
+        	text-align: center;
+        }
+        .divpic{ /*圖片置中調整*/
+        	text-align: center;
+        	vertical-align: middle;
+        	line-height:100px;
+  			margin: auto;
+        }
+
+        #pre01 {  /*照片大小調整*/
+			width: 480px;
+			height: auto;
+		}
+        .imgsize { /*照片大小調整*/
+			width: 480px;
+			height: auto;
+		}
+	</style>
+	</head>
+	<body>
+		
+		<div class="container-fluid backgc">
+			<div class="row">
+				
+
+                <!-- navbar -->
+				<div class="container-fluid ">
+					<div class="row">
+						<nav class="navbar navbar-default" role="navigation">
+							<div class="container">
+								<div class="navbar-header">
+									<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+										<span class="sr-only">選單切換</span>
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+									</button>
+									<a class="navbar-brand" href="#">SPORTGO</a>
+								</div>
+
+								<!-- 手機隱藏選單區 -->
+								<div class="collapse navbar-collapse navbar-ex1-collapse ">
+									<!-- 左選單 -->
+									<ul class="nav navbar-nav">
+										<li class="active">
+											<a href="#">我的商品</a>
+										</li>
+										<li>
+											<a href="#">我的賣場分類</a>
+										</li>
+										<li>
+											<a href="#">我的銷售</a>
+										</li>
+										<li>
+											<a href="#">我的行銷活動</a>
+										</li>
+										<li>
+											<a href="#">我的進帳</a>
+										</li>
+										<li>
+											<a href="#">我的錢包</a>
+										</li>
+										<li>
+											<a href="#">賣場設定</a>
+										</li>
+									</ul>
+									<!-- 右選單 -->
+									<ul class="nav navbar-nav navbar-right">
+
+										<li>
+											<a href="#"></a>
+										</li>
+										<li>
+											<a href="#">個人設定</a>
+										</li>
+										<li class="dropdown">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown">繁體中文
+												<b class="caret"></b>
+											</a>
+											<ul class="dropdown-menu">
+												<li>
+													<a href="#">切換成買家</a>
+												</li>
+												<li>
+													<a href="#">登出</a>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</div>
+								<!-- 手機隱藏選單區結束 -->
+							</div>
+						</nav>
+					</div>
+				</div>
+
+
+
+				<!-- 表單 -->
+				    <c:forEach var="proVO" items="${list}">
+						<div class="container-fluid warp">
+			                <div class="row">
+							<!-- 容器區 -->
+							    <div class="container-fluid warpwidth">
+							    	<div class="row">
+							    		<div class="container-fluid">
+							    			<div class="row">
+							    				<div class="col-xs-12 col-sm-6 aa">
+									    		<!-- 圖片瀏覽 -->
+										    		<div id="preset" class="divpic">
+										    			<img class="imgsize" src="<%=request.getContextPath()%>/pro/proImg.do?pro_no=<%= proVO.getPro_no() %>">
+										    		</div>	
+							    				</div>
+							    				<!-- 加入購物車可選尺寸等等 -->
+								    				<div class="col-xs-12 col-sm-6 bb">
+								    					<div class="container-fluid dd">
+								    						<div class="row">
+								    							<!-- 商品種類 -->
+								    							<div class="fontsize_s">
+								    								${proclassSvc.getOneProductClass(proVO.pro_classid).pro_classname }
+								    							</div>
+								    							<!-- 商品名稱 -->
+								    							<div class="fontsize_s">
+								    								<%=proVO.getPro_name()%>
+								    							</div>
+								    							<!-- 商品單價 -->
+								    							<div class="fontsize_s">
+								    								<%=proVO.getPro_bonus()%>
+								    							</div>
+								    							<!-- 商品規格 -->
+								    							<div class="fontsize_s">
+								    								<%=proVO.getPro_format()%>
+								    							</div>
+								    							<!-- 商品庫存量 -->
+								    							<div class="fontsize_s">
+								    								<%=proVO.getPro_stock()%>
+								    							</div>
+								    						</div>
+								    						<div>
+								    							<input type="button" name="" value="加入購物車">
+								    						</div>
+								    					</div>
+								    				</div>
+							    			</div>
+							    		</div>
+							    		
+	   
+							    	</div>
+							    </div>
+			                </div>
+						</div>
+                        <div class="container-fluid">
+                        	<div class="row">
+                        		<div class="container-fluid warpwidth">
+                        			<div class="row">
+                        				<div class="divfont">
+                        					<h1>
+                        						<%=proVO.getPro_details()%>
+                        					</h1>
+                        				</div>
+                        			</div>
+                        		</div>
+                        	</div>
+                        </div>
+
+
+					</c:forEach>
+
+
+
+
+
+
+
+			</div>
+		</div>
+		
+		
+		<script src="https://code.jquery.com/jquery.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script type="text/javascript"> 
+			document.getElementById("display").style.display = 'none';
+		    $(function() {  //將圖片預覽
+		    	$('input[type=file]').change(function() {
+		      	var input = $(this);
+		      	document.getElementById("preset").style.display = 'none';
+		      	document.getElementById("display").style.display = 'block';
+		      	if(!!this.files && !!this.files[0]) {
+		        	var reader = new FileReader();
+		          reader.onload = function(e) {
+		          	$('#pre' + input.prop('id').substr(4,2)).prop('src', e.target.result);
+		          }
+		          reader.readAsDataURL(this.files[0]);
+		        }
+		      });
+		    });	    
+		</script>
+	</body>
+</html>

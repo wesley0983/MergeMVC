@@ -7,23 +7,15 @@
 
 <%
 	ProductService proSvc = new ProductService();
-	List<ProductVO> list = null;
-	 
-	 System.out.print(list.get(0).getPro_name());
-%>
-<% if ("findBy".equals(request.getAttribute("findBy"))) { %>
-	<jsp:useBean id="pro_ByCompositeQuery" scope="request" type="java.util.List<ProductVO>" />
-<%-- 	<%  list = request.getAttribute("pro_ByCompositeQuery"); %> --%>
-	
-    <h1>有執行</h1>
-<%} else { %>
-    <% list = proSvc.getAll();%>
-    <%pageContext.setAttribute("list",list); %>
-	<h1>${test==null}<h1>
-    <h1>無執行</h1>
-<%} %>
+	List<ProductVO> list = new ArrayList<ProductVO>();
+	if ("findBy".equals(request.getAttribute("findBy"))) {
+		list = (List<ProductVO>) request.getAttribute("pro_ByCompositeQuery");
+	} else {
+		list = proSvc.getAll();
+	}
+    pageContext.setAttribute("list",list);
 
-<!-- 商品類別使用 -->
+%>
 <jsp:useBean id="proclassSvc" scope="page" class="com.productclass.model.ProductClassService" />
 <!DOCTYPE html> 
 <html lang="">
@@ -149,6 +141,9 @@
 		.pagecenter{
             text-align: center;
 		}
+		.divAdd{
+			/*按鈕add靠右*/
+		}
 		</style>
 	</head>
 
@@ -240,57 +235,57 @@
 										<div class="container-fluid">
 											<div class="row">
 												<!-- 複合查詢 -->
-													<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/pro/pro.do" name="form1">
-														<div class="col-xs-12 col-sm-2 aa">
-															<ul class="list-group">
-																<li class="list-group-item">
-																	<div>
-																		商品編號
-																	</div>
-																	<div>
-																		<input type="text" name="pro_no">
-																	</div>
-																</li>
-																<li class="list-group-item">
-																	商品類別編號
-																    <select size="1" name="pro_classid" class="form-control">
-																	    
-																          <option value="">
-																         <c:forEach var="proclassVO" items="${proclassSvc.all}" > 
-																          <option value="${proclassVO.pro_classid}">${proclassVO.pro_classname}
-																         </c:forEach>   
-																       
-																    </select>
-																</li>
-																<li class="list-group-item">
-																	<div>
-																		商品名稱
-																	</div>
-																	<div>
-																		<input type="text" name="pro_name">
-																	</div>
-																</li>
-																<li class="list-group-item">
-																	<div>
-																		商品單價
-																	</div>
-																	<div>
-																		<input type="text" name="pro_bonus">
-																	</div>
-																</li>
-																<li class="list-group-item">
-																	<div>
-																		商品狀態
-																	</div>
-																	<div>
-																		<input type="text" name="pro_shelve">
-																	</div>
-																</li>
-															</ul>
-															 <input type="submit" value="送出">
-	       													 <input type="hidden" name="action" value="pro_ByCompositeQuery">
-														</div>
-													</FORM>
+												<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/pro/pro.do" name="form1">
+													<div class="col-xs-12 col-sm-2 aa">
+														<ul class="list-group">
+															<li class="list-group-item">
+																<div>
+																	商品編號
+																</div>
+																<div>
+																	<input type="text" name="pro_no">
+																</div>
+															</li>
+															<li class="list-group-item">
+																商品類別編號
+															    <select size="1" name="pro_classid" class="form-control">
+																    
+															          <option value="">
+															         <c:forEach var="proclassVO" items="${proclassSvc.all}" > 
+															          <option value="${proclassVO.pro_classid}">${proclassVO.pro_classname}
+															         </c:forEach>   
+															       
+															    </select>
+															</li>
+															<li class="list-group-item">
+																<div>
+																	商品名稱
+																</div>
+																<div>
+																	<input type="text" name="pro_name">
+																</div>
+															</li>
+															<li class="list-group-item">
+																<div>
+																	商品單價
+																</div>
+																<div>
+																	<input type="text" name="pro_bonus">
+																</div>
+															</li>
+															<li class="list-group-item">
+																<div>
+																	商品狀態
+																</div>
+																<div>
+																	<input type="text" name="pro_shelve">
+																</div>
+															</li>
+														</ul>
+														 <input type="submit" value="送出">
+       													 <input type="hidden" name="action" value="pro_ByCompositeQuery">
+													</div>
+												</FORM>
 												<div class="col-xs-12 col-sm-9 bb">
 													<!-- 表單 -->
 													<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/pro/pro.do" name="form1" enctype="multipart/form-data">
@@ -316,6 +311,9 @@
 																							<span class="input-group-btn">
 																								<button class="btn btn-info" type="button">搜尋</button>
 																							</span>
+																						</div>
+																						<div class="divAdd">
+																							<a href="<%= request.getContextPath()%>/back-end/pro/addPro.jsp">Add</a>
 																						</div>
 																					</div>
 																				</div>
@@ -414,7 +412,6 @@
 														</div>
 													</FORM>			
 												</div>
-												<!-- 右邊排版 -->
 												<div class="col-xs-12 col-sm-1 cc"></div>
 											</div>
 										</div>
