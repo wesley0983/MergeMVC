@@ -6,8 +6,14 @@
 
 <%
 	ProductService proSvc = new ProductService();
-	List<ProductVO> list = proSvc.getAll();
-	pageContext.setAttribute("list",list);
+	List<ProductVO> list = new ArrayList<ProductVO>();
+	if ("findBy".equals(request.getAttribute("findBy"))) {
+		list = (List<ProductVO>) request.getAttribute("pro_ByCompositeQuery");
+	} else {
+		list = proSvc.getAll();
+	}
+    pageContext.setAttribute("list",list);
+
 %>
 
 <jsp:useBean id="proclassSvc" scope="page" class="com.productclass.model.ProductClassService" />

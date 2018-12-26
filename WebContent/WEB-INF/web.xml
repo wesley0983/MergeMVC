@@ -14,7 +14,16 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  
+ 
+  <servlet>
+		<servlet-name>OrdServlet</servlet-name>
+		<servlet-class>com.ord.controller.OrdServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OrdServlet</servlet-name>
+		<url-pattern>/ord/ord.do</url-pattern>
+	</servlet-mapping>
+
   <servlet>
 		<servlet-name>ProServlet</servlet-name>
 		<servlet-class>com.pro.controller.ProServlet</servlet-class>

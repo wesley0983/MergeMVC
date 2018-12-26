@@ -401,7 +401,6 @@ public class ProductJDBCDAO implements ProductDAO_interface{
 			String finalSQL = "select * from product "
 			          + jdbcUtil_CompositeQuery_Pro.get_WhereCondition(map)
 			          + "order by pro_no";
-			
 			ps = con.prepareStatement(finalSQL);
 			rs = ps.executeQuery();
 			

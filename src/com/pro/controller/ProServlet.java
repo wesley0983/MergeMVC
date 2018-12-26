@@ -539,7 +539,8 @@ if ("pro_ByCompositeQuery".equals(action)) { //來自listAllPro的複合查詢�
 					map = map1;
 				} 
 				System.out.println(requestURL);
-				
+				System.out.println(PATH_FRONT_LIST_ALL_PRO.equals(requestURL));
+				                
 				/***************************2.開始複合查詢***************************************/
 				ProductService proSvc = new ProductService();
 				List<ProductVO> list  = proSvc.getAll(map);
@@ -548,10 +549,14 @@ if ("pro_ByCompositeQuery".equals(action)) { //來自listAllPro的複合查詢�
 				req.setAttribute("pro_ByCompositeQuery", list); // 資料庫取出的list物件,存入request
 				req.setAttribute("findBy", "findBy");
 				String url = null;
-				if("PATH_FRONT_LIST_ALL_PRO".equals(requestURL)) {
+				System.out.println("requestURL : "+requestURL);
+				if(PATH_FRONT_LIST_ALL_PRO.equals(requestURL)) {
+					System.out.println("進到前端");
 					url = PATH_FRONT_LIST_ALL_PRO;
+					
 				} else {
 					url = PATH_LIST_ALL_PRO;
+					System.out.println("進到後台");
 				}
 				
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listAllPro.jsp
@@ -563,6 +568,7 @@ if ("pro_ByCompositeQuery".equals(action)) { //來自listAllPro的複合查詢�
 				RequestDispatcher failureView = req
 						.getRequestDispatcher(PATH_LIST_ALL_PRO);
 				failureView.forward(req, res);
+				e.printStackTrace();
 			}
 		}
 

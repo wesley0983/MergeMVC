@@ -236,7 +236,7 @@
 											<div class="row">
 												<!-- 複合查詢 -->
 												<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/pro/pro.do" name="form1">
-													<div class="col-xs-12 col-sm-2 aa">
+													<div class="col-xs-12 col-sm-2">
 														<ul class="list-group">
 															<li class="list-group-item">
 																<div>
@@ -286,7 +286,7 @@
        													 <input type="hidden" name="action" value="pro_ByCompositeQuery">
 													</div>
 												</FORM>
-												<div class="col-xs-12 col-sm-9 bb">
+												<div class="col-xs-12 col-sm-9">
 													<!-- 表單 -->
 													<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/pro/pro.do" name="form1" enctype="multipart/form-data">
 														<div class="container-fluid warp">
@@ -412,7 +412,7 @@
 														</div>
 													</FORM>			
 												</div>
-												<div class="col-xs-12 col-sm-1 cc"></div>
+												<div class="col-xs-12 col-sm-1"></div>
 											</div>
 										</div>
 
