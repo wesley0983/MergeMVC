@@ -278,7 +278,75 @@ public class OrdJDBCDAO implements OrdDAO_interface{
 		}
 		return ordVOList;
 	}
-    
+	@Override
+	public void insertWithOrdds(OrdVO ordVO, List<OrdVO> list) {
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+
+		try {
+
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			
+			// 1●設定於 pstm.executeUpdate()之前
+    		con.setAutoCommit(false);
+    		
+    		
+    		// 先新增訂單
+    		String cols[] = {"ORD_NO"};
+    		ps = con.prepareStatement(INERT_INTO , cols);
+    		
+			ps.setString(1, ordVO.getMem_no());
+			ps.setTimestamp (2,ordVO.getOrd_deldate());
+			ps.setString (3,ordVO.getOrd_status());
+			ps.setTimestamp (4,ordVO.getOrd_backdeldate());
+			ps.setInt(5,ordVO.getOrd_amount());
+			ps.setInt(6,ordVO.getOrd_backamount());
+			ps.executeUpdate();
+			//掘取對應的自增主鍵值
+			String next_ord_no = null;
+			ResultSet rs = ps.getGeneratedKeys();
+			if(rs.next()) {
+				next_ord_no = rs.getString(1);
+				System.out.println("自增主鍵值" + next_ord_no +"(剛新增成功的訂單編號)");
+			} else {
+				System.out.println("未取得自增主鍵值");
+			}
+			rs.close();
+			//在同時新增訂單明細
+			
+			
+		
+	   }  catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			if(ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
     
     
 }

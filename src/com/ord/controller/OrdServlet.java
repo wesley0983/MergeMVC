@@ -63,7 +63,7 @@ if ("insert".equals(action)) { //來自addPro.jsp的請求
 				//拿取網頁資料
 		
 
-				String mem_no = req.getParameter("mem_no");//測試會員登入後拿的到到會員資料
+		String mem_no = req.getParameter("mem_no");//測試會員登入後拿的到到會員資料
 				if (mem_no == null || mem_no.trim().length() == 0) {
 					errorMsgs.add("會員編號請勿空白");
 				}
@@ -128,21 +128,21 @@ if ("insert".equals(action)) { //來自addPro.jsp的請求
 
 				
 					
-					
+				
 				OrdVO ordVO = new OrdVO();
 				//ordVO.setOrd_no(ord_no); 自動
-				ordVO.setMem_no(mem_no);
-				ordVO.setOrd_date(new Timestamp(System.currentTimeMillis()));  
-				ordVO.setOrd_deldate(null);
-				ordVO.setOrd_status("待出貨");
-				ordVO.setOrd_backdeldate(null);
-				ordVO.setOrd_amount(1000);
-				ordVO.setOrd_backamount(null);
+				ordVO.setMem_no("M001");
+//				ordVO.setOrd_date(ord_date);  jdbc以用sql自動  
+				ordVO.setOrd_deldate(ord_deldate);
+				ordVO.setOrd_status(ord_status);
+				ordVO.setOrd_backdeldate(ord_backdeldate);
+				ordVO.setOrd_amount(ord_amount);
+				ordVO.setOrd_backamount(ord_backamount);
 				
 				
 				
 
-				ProductVO proVO = new ProductVO();
+//				ProductVO proVO = new ProductVO();
 //				proVO.setPro_classid(pro_classid);
 //		        proVO.setPro_name(pro_name);
 //		        proVO.setPro_pic(pro_pic);//圖片給空
@@ -161,7 +161,7 @@ if ("insert".equals(action)) { //來自addPro.jsp的請求
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					System.out.println(errorMsgs);
-					req.setAttribute("proVO", proVO); // 含有輸入格式錯誤的proVO物件,也存入req
+//					req.setAttribute("proVO", proVO); // 含有輸入格式錯誤的proVO物件,也存入req
 					RequestDispatcher failureView = req
 							.getRequestDispatcher(PATH_ADDPRO);
 					failureView.forward(req, res);
@@ -170,6 +170,7 @@ if ("insert".equals(action)) { //來自addPro.jsp的請求
 				
 				/***************************2.開始新增資料***************************************/
 				ProductService proSvc = new ProductService();
+				//需要用add+訂單明細的list
 //				proVO = proSvc.addPro(pro_classid,pro_name,pro_pic,pic_ext,pro_format,
 //						pro_bonus,pro_stock,pro_safestock,pro_details,pro_shelve,pro_all_assess,pro_all_assessman);
 				
