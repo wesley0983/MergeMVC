@@ -2,6 +2,9 @@ package com.ord.model;
 
 import java.util.List;
 
+import com.orddetails.model.OrddetailsVO;
+import com.product.model.ProductVO;
+
 
 public interface OrdDAO_interface {
 	//新增
@@ -16,5 +19,5 @@ public interface OrdDAO_interface {
 	List<OrdVO> getAll();
 	
 	//同時新增部門與員工 (實務上並不常用, 但,可用在訂單主檔與明細檔一次新增成功)
-    public void insertWithOrdds(OrdVO ordVO , List<OrdVO> list);
+    public void insertWithOrdds( OrdVO ordVO , List<OrddetailsVO> list);
 }

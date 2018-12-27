@@ -11,7 +11,7 @@ public class OrdService {
 		super();
 		ordDAO = new OrdJDBCDAO();
 	}
-	
+/*	
 	public OrdVO addOrd(String mem_no,Timestamp ord_deldate,String ord_status,Timestamp ord_backdeldate,
 			Integer ord_amount,Integer ord_backamount,List<OrdVO>list) {
 		
@@ -28,7 +28,7 @@ public class OrdService {
 		
 		return ordVO;
 	}
-	
+*/	
 //	public OrdDAO addOrd(String Mem_no ,)
 
 }

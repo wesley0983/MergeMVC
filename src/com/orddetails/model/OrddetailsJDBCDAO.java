@@ -249,4 +249,51 @@ public class OrddetailsJDBCDAO implements Orddetails_interface{
 		return orddetailsVOList;
 	}
 
+	@Override
+	public void insert2(OrddetailsVO orddetailsVO, Connection con) {
+		
+		PreparedStatement ps = null;
+		
+		try {
+			System.out.println(orddetailsVO.getOrd_no());
+			System.out.println(orddetailsVO.getPro_no());
+			System.out.println(orddetailsVO.getOrd_probonuns());
+			System.out.println(orddetailsVO.getPro_count());
+			ps = con.prepareStatement(INSERT);
+			ps.setString(1, orddetailsVO.getOrd_no());
+			ps.setString(2, orddetailsVO.getPro_no());
+			ps.setInt(3, orddetailsVO.getOrd_probonuns());
+			ps.setInt(4, orddetailsVO.getPro_count());
+			
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			if (con != null) {
+				try {
+					// 3●設定於當有exception發生時之catch區塊內
+					System.err.print("Transaction is being ");
+					System.err.println("rolled back-由-emp");
+					con.rollback();
+				} catch (SQLException excep) {
+					throw new RuntimeException("rollback error occured. "
+							+ excep.getMessage());
+				}
+			}
+			throw new RuntimeException("A database error occured. "
+					+ e.getMessage());
+			// Clean up JDBC resources
+		}finally { 
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		}
+		
+	}
+
 }

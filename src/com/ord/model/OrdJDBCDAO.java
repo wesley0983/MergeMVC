@@ -3,6 +3,10 @@ package com.ord.model;
 import java.sql.*;
 import java.util.*;
 
+
+import com.orddetails.model.*;
+import com.product.model.ProductVO;
+
 public class OrdJDBCDAO implements OrdDAO_interface{
 	
 	private static final String DRIVER = "oracle.jdbc.driver.OracleDriver"; 
@@ -279,7 +283,7 @@ public class OrdJDBCDAO implements OrdDAO_interface{
 		return ordVOList;
 	}
 	@Override
-	public void insertWithOrdds(OrdVO ordVO, List<OrdVO> list) {
+	public void insertWithOrdds(OrdVO ordVO, List<OrddetailsVO> list) {
 		
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -314,12 +318,36 @@ public class OrdJDBCDAO implements OrdDAO_interface{
 			}
 			rs.close();
 			//在同時新增訂單明細
-			
+			OrddetailsJDBCDAO dao = new OrddetailsJDBCDAO();
+			System.out.println("list.size()-A="+list.size());
+			for(OrddetailsVO orddetailsVO : list) {
+				orddetailsVO.setOrd_no(new String(next_ord_no));
+//				orddetailsVO.setPro_no("P001");
+				dao.insert2(orddetailsVO, con);
+			}
+			// 2●設定於 pstm.executeUpdate()之後
+			con.commit();
+			con.setAutoCommit(true);
+			System.out.println("list.size()-B="+list.size());
+			System.out.println("新增部門編號" + next_ord_no + "時,共有員工" + list.size()
+					+ "人同時被新增");
 			
 		
-	   }  catch (SQLException e) {
-			
-			e.printStackTrace();
+	   }catch (SQLException e) {
+			if (con != null) {
+				try {
+					// 3●設定於當有exception發生時之catch區塊內
+					System.err.print("Transaction is being ");
+					System.err.println("rolled back-由-ord");
+					con.rollback();
+				} catch (SQLException excep) {
+					throw new RuntimeException("rollback error occured. "
+							+ excep.getMessage());
+				}
+			}
+			throw new RuntimeException("A database error occured. "
+					+ e.getMessage());
+			// Clean up JDBC resources
 		}finally {
 			if(ps != null) {
 				try {
@@ -345,6 +373,44 @@ public class OrdJDBCDAO implements OrdDAO_interface{
 					e.printStackTrace();
 				}
 			}
+		}
+	}
+	public static void main (String[] args) {
+		OrdJDBCDAO ordDAO = new OrdJDBCDAO();
+		
+		//新增
+		OrdVO ordVO = new OrdVO();
+		//ordVO.setOrd_no(ord_no); 自動
+		ordVO.setMem_no("M001");
+		//ordVO.setOrd_date(new java.sql.Timestamp); 自動 
+		ordVO.setOrd_deldate(null);
+		ordVO.setOrd_status("待出貨");
+		ordVO.setOrd_backdeldate(null);
+		ordVO.setOrd_amount(8888);
+		ordVO.setOrd_backamount(10);
+		System.out.println("成功新增" + ordDAO.insert(ordVO));
+		
+		List<OrddetailsVO> testList = new ArrayList<OrddetailsVO>(); // 準備置入訂單數量
+		OrddetailsVO orddetailsVO_1 = new OrddetailsVO();
+		orddetailsVO_1.setPro_no("P001");
+		orddetailsVO_1.setOrd_probonuns(666);
+		orddetailsVO_1.setPro_count(777);
+		
+		testList.add(orddetailsVO_1);
+		
+		ordDAO.insertWithOrdds( ordVO, testList);
+		
+		List<OrdVO> ordVOList = ordDAO.getAll();
+		for(OrdVO ordVO3 : ordVOList ) {
+			System.out.println(ordVO3.getOrd_no());
+			System.out.println(ordVO3.getMem_no());
+			System.out.println(ordVO3.getOrd_date());
+			System.out.println(ordVO3.getOrd_deldate());
+			System.out.println(ordVO3.getOrd_status());
+			System.out.println(ordVO3.getOrd_backdeldate());
+			System.out.println(ordVO3.getOrd_amount());
+			System.out.println(ordVO3.getOrd_backamount());
+			System.out.println("-----------------------------");
 		}
 	}
     
