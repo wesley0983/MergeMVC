@@ -327,7 +327,7 @@ public class OrdJDBCDAO implements OrdDAO_interface{
 			}
 			// 2●設定於 pstm.executeUpdate()之後
 			con.commit();
-			con.setAutoCommit(true);
+			
 			System.out.println("list.size()-B="+list.size());
 			System.out.println("新增部門編號" + next_ord_no + "時,共有員工" + list.size()
 					+ "人同時被新增");
@@ -349,6 +349,11 @@ public class OrdJDBCDAO implements OrdDAO_interface{
 					+ e.getMessage());
 			// Clean up JDBC resources
 		}finally {
+			try {
+				con.setAutoCommit(true);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			if(ps != null) {
 				try {
 					ps.close();
@@ -381,18 +386,18 @@ public class OrdJDBCDAO implements OrdDAO_interface{
 		//新增
 		OrdVO ordVO = new OrdVO();
 		//ordVO.setOrd_no(ord_no); 自動
-		ordVO.setMem_no("M001");
+		ordVO.setMem_no("M001");//需要抓取會員編號
 		//ordVO.setOrd_date(new java.sql.Timestamp); 自動 
 		ordVO.setOrd_deldate(null);
 		ordVO.setOrd_status("待出貨");
 		ordVO.setOrd_backdeldate(null);
-		ordVO.setOrd_amount(8888);
+		ordVO.setOrd_amount(9999);
 		ordVO.setOrd_backamount(10);
-		System.out.println("成功新增" + ordDAO.insert(ordVO));
+
 		
 		List<OrddetailsVO> testList = new ArrayList<OrddetailsVO>(); // 準備置入訂單數量
 		OrddetailsVO orddetailsVO_1 = new OrddetailsVO();
-		orddetailsVO_1.setPro_no("P001");
+		orddetailsVO_1.setPro_no("P001");//需要抓取商品編號
 		orddetailsVO_1.setOrd_probonuns(666);
 		orddetailsVO_1.setPro_count(777);
 		
@@ -400,18 +405,7 @@ public class OrdJDBCDAO implements OrdDAO_interface{
 		
 		ordDAO.insertWithOrdds( ordVO, testList);
 		
-		List<OrdVO> ordVOList = ordDAO.getAll();
-		for(OrdVO ordVO3 : ordVOList ) {
-			System.out.println(ordVO3.getOrd_no());
-			System.out.println(ordVO3.getMem_no());
-			System.out.println(ordVO3.getOrd_date());
-			System.out.println(ordVO3.getOrd_deldate());
-			System.out.println(ordVO3.getOrd_status());
-			System.out.println(ordVO3.getOrd_backdeldate());
-			System.out.println(ordVO3.getOrd_amount());
-			System.out.println(ordVO3.getOrd_backamount());
-			System.out.println("-----------------------------");
-		}
+
 	}
     
     

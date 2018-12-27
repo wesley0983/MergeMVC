@@ -3,6 +3,8 @@ package com.ord.model;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.orddetails.model.OrddetailsVO;
+
 public class OrdService {
 	
 	private OrdDAO_interface ordDAO;
@@ -11,9 +13,9 @@ public class OrdService {
 		super();
 		ordDAO = new OrdJDBCDAO();
 	}
-/*	
+	
 	public OrdVO addOrd(String mem_no,Timestamp ord_deldate,String ord_status,Timestamp ord_backdeldate,
-			Integer ord_amount,Integer ord_backamount,List<OrdVO>list) {
+			Integer ord_amount,Integer ord_backamount,List<OrddetailsVO>list) {
 		
 		OrdVO ordVO = new OrdVO();
 		
@@ -28,7 +30,7 @@ public class OrdService {
 		
 		return ordVO;
 	}
-*/	
+	
 //	public OrdDAO addOrd(String Mem_no ,)
 
 }

@@ -248,18 +248,15 @@ public class OrddetailsJDBCDAO implements Orddetails_interface{
 		}
 		return orddetailsVOList;
 	}
-
+    //同時新增訂單與訂單明細
 	@Override
 	public void insert2(OrddetailsVO orddetailsVO, Connection con) {
 		
 		PreparedStatement ps = null;
 		
 		try {
-			System.out.println(orddetailsVO.getOrd_no());
-			System.out.println(orddetailsVO.getPro_no());
-			System.out.println(orddetailsVO.getOrd_probonuns());
-			System.out.println(orddetailsVO.getPro_count());
-			ps = con.prepareStatement(INSERT);
+
+			con.prepareStatement(INSERT);
 			ps.setString(1, orddetailsVO.getOrd_no());
 			ps.setString(2, orddetailsVO.getPro_no());
 			ps.setInt(3, orddetailsVO.getOrd_probonuns());

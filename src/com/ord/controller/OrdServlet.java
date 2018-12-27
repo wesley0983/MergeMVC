@@ -8,6 +8,7 @@ import javax.servlet.*;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
 
+import com.ord.model.OrdService;
 import com.ord.model.OrdVO;
 import com.pro.controller.ProServlet;
 import com.product.model.ProductService;
@@ -169,7 +170,8 @@ if ("insert".equals(action)) { //來自addPro.jsp的請求
 				}
 				
 				/***************************2.開始新增資料***************************************/
-				ProductService proSvc = new ProductService();
+				OrdService ordSvc = new OrdService();
+//				ordSvc.addOrd(mem_no, ord_deldate, ord_status, ord_backdeldate, ord_amount, ord_backamount, list)
 				//需要用add+訂單明細的list
 //				proVO = proSvc.addPro(pro_classid,pro_name,pro_pic,pic_ext,pro_format,
 //						pro_bonus,pro_stock,pro_safestock,pro_details,pro_shelve,pro_all_assess,pro_all_assessman);
