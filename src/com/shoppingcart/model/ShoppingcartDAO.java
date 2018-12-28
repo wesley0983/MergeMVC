@@ -1,5 +1,7 @@
 package com.shoppingcart.model;
 
+import java.util.HashMap;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,9 +19,14 @@ public class ShoppingcartDAO implements Shoppingcart_interface{
 		Jedis jedis = new Jedis(HOST, PORT);
 		jedis.auth(AUTH);
 		
-			String job = new JSONObject(cartVO).toString();
-			jedis.set(cartVO.getMem_no(), job);
-			System.out.println(jedis.get(cartVO.getMem_no()));
+//			String job = new JSONObject(cartVO).toString();
+//			jedis.set(cartVO.getMem_no(), job);
+//			System.out.println(jedis.get(cartVO.getMem_no()));
+		HashMap<String, String> data = new HashMap<>();  //將資料包成HashMap型態 一次存起來
+		data.put(cartVO.getPro_no(), String.valueOf(cartVO.getPro_count()));
+		String test = cartVO.getMem_no();
+		jedis.hmset(cartVO.getMem_no(), data);
+		
 		
 		jedis.close();
 	}
@@ -30,8 +37,8 @@ public class ShoppingcartDAO implements Shoppingcart_interface{
 		
 		ShoppingcartVO cartVO = new ShoppingcartVO();
 		cartVO.setMem_no("M001");
-		cartVO.setPro_no("p012");
-		cartVO.setPro_count(5000000);
+		cartVO.setPro_no("p01");
+		cartVO.setPro_count(100);
 		carDAO.insert(cartVO);
 	}
 }

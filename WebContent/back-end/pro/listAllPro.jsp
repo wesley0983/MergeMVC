@@ -326,7 +326,7 @@
 																			<jsp:include page="listOnePro.jsp" flush="true" />
 																		<%} %>
 																		<%@ include file="page/page1_ByCompositeQuery.file" %>
-																				<!-- 圖片預覽 -->
+																				<!-- 所有商品 -->
 																				<table class="table table-hover ">
 																					<thead>
 																						<tr class="tablebgc">

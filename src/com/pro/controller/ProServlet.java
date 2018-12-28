@@ -571,6 +571,11 @@ if ("pro_ByCompositeQuery".equals(action)) { //來自listAllPro的複合查詢�
 				e.printStackTrace();
 			}
 		}
+//if("returnTotal".equals(action)) {  購物車取值
+//	System.out.println("value"+req.getParameter("returntest"));
+//	System.out.println("hi");
+//}
+
 
 
 	}

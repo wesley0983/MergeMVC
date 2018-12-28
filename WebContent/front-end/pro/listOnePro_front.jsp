@@ -17,7 +17,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-		<title>商品修改</title>
+		<title>商品詳情</title>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 		<!--[if lt IE 9]>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -248,9 +248,19 @@
 								    							<div class="fontsize_s">
 								    								<%=proVO.getPro_stock()%>
 								    							</div>
+								    							<!-- 數量 -->
+								    							<div class="fontsize_s">
+								    								<input id="min" name="" type="button" value="-" />
+																	<input id="num" class="text_box"  type="text" value="1" />
+																	<input id="add" name="" type="button" value="+" />
+								    							</div>
 								    						</div>
 								    						<div>
-								    							<input type="button" name="" value="加入購物車">
+								    							<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/pro/pro.do" name="form1" enctype="multipart/form-data">
+								    							<input type="submit" value="加入購物車">
+								    							<input class="text_box" name="returntest" type="hidden" value="1" />
+								    							<input type="hidden" name="action" value="returnTotal">
+								    							</FORM>
 								    						</div>
 								    					</div>
 								    				</div>
@@ -292,21 +302,32 @@
 		<script src="https://code.jquery.com/jquery.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script type="text/javascript"> 
-			document.getElementById("display").style.display = 'none';
-		    $(function() {  //將圖片預覽
-		    	$('input[type=file]').change(function() {
-		      	var input = $(this);
-		      	document.getElementById("preset").style.display = 'none';
-		      	document.getElementById("display").style.display = 'block';
-		      	if(!!this.files && !!this.files[0]) {
-		        	var reader = new FileReader();
-		          reader.onload = function(e) {
-		          	$('#pre' + input.prop('id').substr(4,2)).prop('src', e.target.result);
-		          }
-		          reader.readAsDataURL(this.files[0]);
-		        }
-		      });
-		    });	    
+			$(function(){
+				var t = $(".text_box");
+				$("#add").click(function(){		
+					t.val(parseInt(t.val())+1)
+					// setTotal();
+				})
+				$("#min").click(function(){
+					t.val(parseInt(t.val())-1)
+					// setTotal();
+				})
+				$("#num").keyup(function(){
+					t.val(parseInt(t.val()))
+				})
+				
+				// function setTotal(){
+				// 	$("#total").html((parseInt(t.val())*3.95).toFixed(2));
+				// }
+				// setTotal();
+			})
+			// function returnvalue(){
+			// 	$("#returnValue").html((parseInt(t.val())).toFixed(2));
+			// }
+
+
+
+
 		</script>
 	</body>
 </html>
