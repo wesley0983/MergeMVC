@@ -256,10 +256,11 @@
 								    							</div>
 								    						</div>
 								    						<div>
-								    							<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/pro/pro.do" name="form1" enctype="multipart/form-data">
+								    							<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/shoppingCartServlet/shoppingCartServlet.do" name="form1" enctype="multipart/form-data">
 								    							<input type="submit" value="加入購物車">
-								    							<input class="text_box" name="returntest" type="hidden" value="1" />
-								    							<input type="hidden" name="action" value="returnTotal">
+								    							<input class="text_box" name="pro_count" type="hidden" value="1" />
+								    							<input type="hidden" name="pro_no" value="<%= proVO.getPro_no() %>">
+								    							<input type="hidden" name="action" value="insert">
 								    							</FORM>
 								    						</div>
 								    					</div>

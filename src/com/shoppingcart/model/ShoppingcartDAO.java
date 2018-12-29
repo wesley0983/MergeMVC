@@ -12,7 +12,9 @@ public class ShoppingcartDAO implements Shoppingcart_interface{
 	private static final Integer PORT = 6379;
 	private static final String AUTH = "123456";
 	
-	
+	public ShoppingcartDAO() {
+		super();
+	}
 	@Override
 	public void insert(ShoppingcartVO cartVO) {
 		
@@ -31,14 +33,14 @@ public class ShoppingcartDAO implements Shoppingcart_interface{
 		jedis.close();
 	}
 	
-	public static void main(String[] args) {
-		
-		ShoppingcartDAO carDAO = new ShoppingcartDAO();
-		
-		ShoppingcartVO cartVO = new ShoppingcartVO();
-		cartVO.setMem_no("M001");
-		cartVO.setPro_no("p01");
-		cartVO.setPro_count(100);
-		carDAO.insert(cartVO);
-	}
+//	public static void main(String[] args) {
+//		
+//		ShoppingcartDAO carDAO = new ShoppingcartDAO();
+//		
+//		ShoppingcartVO cartVO = new ShoppingcartVO();
+//		cartVO.setMem_no("M001");
+//		cartVO.setPro_no("p01");
+//		cartVO.setPro_count(100);
+//		carDAO.insert(cartVO);
+//	}
 }

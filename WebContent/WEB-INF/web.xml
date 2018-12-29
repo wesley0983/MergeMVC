@@ -15,6 +15,17 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
  
+ 
+   <servlet>
+		<servlet-name>ShoppingCartServlet</servlet-name>
+		<servlet-class>com.shoppingcart.controller.ShoppingCartServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ShoppingCartServlet</servlet-name>
+		<url-pattern>/shoppingCartServlet/shoppingCartServlet.do</url-pattern>
+	</servlet-mapping>
+
+  
   <servlet>
 		<servlet-name>OrdServlet</servlet-name>
 		<servlet-class>com.ord.controller.OrdServlet</servlet-class>

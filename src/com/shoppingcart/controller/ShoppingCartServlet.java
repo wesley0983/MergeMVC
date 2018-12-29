@@ -6,12 +6,18 @@ import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.shoppingcart.model.*;
+import com.shoppingcart.model.ShoppingcartDAO;
+import com.shoppingcart.model.ShoppingcartVO;
 
+
+//問題是否要加下面著個才可以接到form表單呢
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5  * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class ShoppingCartServlet extends HttpServlet{
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
@@ -24,27 +30,31 @@ public class ShoppingCartServlet extends HttpServlet{
 		
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-		
 		if ("insert".equals(action)) { //來自addPro.jsp的請求
-			
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 			
-			
-			String mem_no = req.getParameter("mem_no");//會改成用session接
+			HttpSession session = req.getSession();
+			String mem_no = session.getAttribute("mem_no").toString();//會改成用session接
 			String pro_no = req.getParameter("pro_no");
 			Integer pro_count = new Integer(req.getParameter("pro_count"));
+			System.out.println("pro_count:" + pro_count);
+			
+			
+			ShoppingcartDAO carDAO = new ShoppingcartDAO();
 			
 			ShoppingcartVO cartVO = new ShoppingcartVO();
-			cartVO.setMem_no(mem_no);
-			cartVO.setPro_no(pro_no);
-			cartVO.setPro_count(pro_count);
-			
-			
-			ShoppingcartDAO cartDAO = new ShoppingcartDAO();
-			cartDAO.insert(cartVO);
+			cartVO.setMem_no("M003");
+			cartVO.setPro_no("p01");
+			cartVO.setPro_count(100);
+			System.out.println("================");
+			System.out.println(cartVO.getMem_no());
+			System.out.println(cartVO.getPro_no());
+			System.out.println(cartVO.getPro_count());
+			System.out.println(cartVO.getClass());
+			carDAO.insert(cartVO);
 			
 			//購物車中的商品必須在頁面上持續且商業邏輯化顯示  (存於redis中則是...? er模型的表格嗎
 			//以及存在redis會有覆蓋的問題
