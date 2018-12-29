@@ -1,6 +1,7 @@
 package com.shoppingcart.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,10 +16,15 @@ import javax.servlet.http.HttpSession;
 import com.shoppingcart.model.ShoppingcartDAO;
 import com.shoppingcart.model.ShoppingcartVO;
 
+import redis.clients.jedis.Jedis;
+
 
 //問題是否要加下面著個才可以接到form表單呢
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5  * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class ShoppingCartServlet extends HttpServlet{
+	private static final String HOST = "localhost";
+	private static final Integer PORT = 6379;
+	private static final String AUTH = "123456";
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
@@ -54,10 +60,24 @@ public class ShoppingCartServlet extends HttpServlet{
 			System.out.println(cartVO.getPro_no());
 			System.out.println(cartVO.getPro_count());
 			System.out.println(cartVO.getClass());
-			carDAO.insert(cartVO);
+//			carDAO.insert(cartVO);
 			
 			//購物車中的商品必須在頁面上持續且商業邏輯化顯示  (存於redis中則是...? er模型的表格嗎
 			//以及存在redis會有覆蓋的問題
+			
+			Jedis jedis = new Jedis(HOST, PORT);
+			jedis.auth(AUTH);
+			
+//				String job = new JSONObject(cartVO).toString();
+//				jedis.set(cartVO.getMem_no(), job);
+//				System.out.println(jedis.get(cartVO.getMem_no()));
+			HashMap<String, String> data = new HashMap<>();  //將資料包成HashMap型態 一次存起來
+			data.put(cartVO.getPro_no(), String.valueOf(cartVO.getPro_count()));
+			String test = cartVO.getMem_no();
+			jedis.hmset(cartVO.getMem_no(), data);
+			
+			
+			jedis.close();
 			
 			
 			// Send the use back to the form, if there were errors
