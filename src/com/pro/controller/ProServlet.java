@@ -90,9 +90,11 @@ if ("getOne_For_Display".equals(action)) { //來自select_page.jsp的請求
 				String url = null;
 				if(PATH_FRONT_LIST_ALL_PRO.equals(requestURL)) {  //前端與後端的導向不同
 					url = PATH_FRONT_LIST_ONE_PRO;
+					System.out.println(requestURL);
 
 				}else {
 					url = PATH_LIST_ONE_PRO;
+					System.out.println(requestURL);
 
 				}
 				

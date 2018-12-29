@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.product.model.ProductService;
+import com.product.model.ProductVO;
 import com.shoppingcart.model.ShoppingcartDAO;
 import com.shoppingcart.model.ShoppingcartVO;
 
@@ -22,9 +24,8 @@ import redis.clients.jedis.Jedis;
 //問題是否要加下面著個才可以接到form表單呢
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5  * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class ShoppingCartServlet extends HttpServlet{
-	private static final String HOST = "localhost";
-	private static final Integer PORT = 6379;
-	private static final String AUTH = "123456";
+	
+	private static final String PATH_LISTONEPRO_FRONT = "/front-end/pro/listOnePro_front.jsp";
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
@@ -41,44 +42,45 @@ public class ShoppingCartServlet extends HttpServlet{
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
+//			try {
 			
 			HttpSession session = req.getSession();
-			String mem_no = session.getAttribute("mem_no").toString();//會改成用session接
+			
+			String mem_no = session.getAttribute("mem_no").toString();//********需要把listAllPro_front.jsp中的session拿掉接正式版的會員********
+			if(mem_no == null || mem_no.trim().length() == 0) {
+				errorMsgs.add("未登入會員");
+			}
 			String pro_no = req.getParameter("pro_no");
-			Integer pro_count = new Integer(req.getParameter("pro_count"));
-			System.out.println("pro_count:" + pro_count);
+			if(pro_no == null || pro_no.trim().length() == 0) {
+				errorMsgs.add("未購買商品");
+			}
+			Integer pro_count = new Integer(req.getParameter("pro_count"));//未驗證
 			
 			
-			ShoppingcartDAO carDAO = new ShoppingcartDAO();
+			
 			
 			ShoppingcartVO cartVO = new ShoppingcartVO();
-			cartVO.setMem_no("M003");
-			cartVO.setPro_no("p01");
-			cartVO.setPro_count(100);
-			System.out.println("================");
-			System.out.println(cartVO.getMem_no());
-			System.out.println(cartVO.getPro_no());
-			System.out.println(cartVO.getPro_count());
-			System.out.println(cartVO.getClass());
-//			carDAO.insert(cartVO);
+			cartVO.setMem_no(mem_no);
+			cartVO.setPro_no(pro_no);
+			cartVO.setPro_count(pro_count);
+			
 			
 			//購物車中的商品必須在頁面上持續且商業邏輯化顯示  (存於redis中則是...? er模型的表格嗎
 			//以及存在redis會有覆蓋的問題
 			
-			Jedis jedis = new Jedis(HOST, PORT);
-			jedis.auth(AUTH);
-			
-//				String job = new JSONObject(cartVO).toString();
-//				jedis.set(cartVO.getMem_no(), job);
-//				System.out.println(jedis.get(cartVO.getMem_no()));
-			HashMap<String, String> data = new HashMap<>();  //將資料包成HashMap型態 一次存起來
-			data.put(cartVO.getPro_no(), String.valueOf(cartVO.getPro_count()));
-			String test = cartVO.getMem_no();
-			jedis.hmset(cartVO.getMem_no(), data);
+			/***************************2.開始新增資料***************************************/
+			ShoppingcartDAO carDAO = new ShoppingcartDAO();
+			carDAO.insert(cartVO);
 			
 			
-			jedis.close();
-			
+			/***************************3.開始查詢資料***********/
+			ProductService proSvc = new ProductService();   //準備再次使用pro_no取得proVO物件
+			ProductVO proVO = proSvc.getOneProduct(pro_no); //資料庫取出的proVO物件,
+			req.setAttribute("proVO", proVO);               // 存入req
+			/***************************4.新增完成,準備轉交(Send the Success view)***********/
+			String url = PATH_LISTONEPRO_FRONT;
+			RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交lisOnePro_front.jsp
+			successView.forward(req, res);	
 			
 			// Send the use back to the form, if there were errors
 //			if (!errorMsgs.isEmpty()) {
@@ -89,7 +91,11 @@ public class ShoppingCartServlet extends HttpServlet{
 //				failureView.forward(req, res);
 //				return;
 //			}
-			
+//			} catch (Exception e) {
+//				RequestDispatcher failureView = req
+//						.getRequestDispatcher(PATH_LISTONEPRO_FRONT);
+//				failureView.forward(req, res);
+//			}
 			
 		}
 	}
