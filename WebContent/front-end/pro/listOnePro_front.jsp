@@ -263,6 +263,12 @@
 								    							<input type="hidden" name="action" value="insert">
 								    							</FORM>
 								    						</div>
+								    						<div>
+								    							<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/shoppingCartServlet/shoppingCartServlet.do" name="form1" enctype="multipart/form-data">
+								    								<input type="submit" value="購物車網頁">
+								    								<input type="hidden" name="action" value="getAll_For_Display">
+								    							</FORM>
+								    						</div>
 								    					</div>
 								    				</div>
 							    			</div>

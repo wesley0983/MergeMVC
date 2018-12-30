@@ -1,9 +1,11 @@
 package com.shoppingcart.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,6 +28,7 @@ import redis.clients.jedis.Jedis;
 public class ShoppingCartServlet extends HttpServlet{
 	
 	private static final String PATH_LISTONEPRO_FRONT = "/front-end/pro/listOnePro_front.jsp";
+	private static final String PATH_SHOPPINGCART = "/front-end/pro/shoppingcart_front.jsp";
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
@@ -37,7 +40,7 @@ public class ShoppingCartServlet extends HttpServlet{
 		
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-		if ("insert".equals(action)) { //來自addPro.jsp的請求
+		if ("insert".equals(action)) { //來自listOnePro_front.jsp的請求
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
@@ -78,7 +81,7 @@ public class ShoppingCartServlet extends HttpServlet{
 			ProductVO proVO = proSvc.getOneProduct(pro_no); //資料庫取出的proVO物件,
 			req.setAttribute("proVO", proVO);               // 存入req
 			/***************************4.新增完成,準備轉交(Send the Success view)***********/
-			String url = PATH_LISTONEPRO_FRONT;
+			String url = PATH_SHOPPINGCART;
 			RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交lisOnePro_front.jsp
 			successView.forward(req, res);	
 			
@@ -98,6 +101,37 @@ public class ShoppingCartServlet extends HttpServlet{
 //			}
 			
 		}
-	}
+		if ("getAll_For_Display".equals(action)) { //來自listOnePro_front.jsp的請求
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+			HttpSession session = req.getSession();
+			
+			String mem_no = session.getAttribute("mem_no").toString();//********需要把listAllPro_front.jsp中的session拿掉接正式版的會員********
+			if(mem_no == null || mem_no.trim().length() == 0) {
+				errorMsgs.add("未登入會員");
+			}			
+			
+			ProductService proSvc = new ProductService();
+			ShoppingcartDAO cartDAO = new ShoppingcartDAO();
+			List<ProductVO> proVOList = new ArrayList<>();
+			List<Integer> pro_countList = new ArrayList<>();
+			Map<String , String> hAll =  cartDAO.getAll(mem_no);
+			for(String pro_no : hAll.keySet()) {
+				proVOList.add(proSvc.getOneProduct(pro_no));
+//				pro_countList.add(Integer.parseInt(hAll.get(pro_no)));
+			}
+			
+//		
+			
+			/***************************4.準備轉交(Send the Success view)***********/
+			req.setAttribute("proVOList", proVOList);
+			req.setAttribute("hAll", hAll);
+			String url = PATH_SHOPPINGCART;
+			RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交lisOnePro_front.jsp
+			successView.forward(req, res);	
+		}
 
+	}
 }

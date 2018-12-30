@@ -42,39 +42,39 @@ public class Product_Main {
 //    	  proVO1.setPro_all_assessman(10);
 //        System.out.println("成功新增" + proDAO.insert(proVO1));
         
-        //修改
-        ProductVO proVO2 = new ProductVO();
-        proVO2.setPro_no("P001");  
-        proVO2.setPro_classid("PT001");
-        proVO2.setPro_name("AddiEs");
-        proVO2.setPro_pic(null);
-        proVO2.setPro_pic_ext("TEST");
-        proVO2.setPro_format("TEST");
-        proVO2.setPro_bonus(3000);
-        proVO2.setPro_stock(50);
-        proVO2.setPro_safestock(10);
-    	proVO2.setPro_details("test...................");
-    	proVO2.setPro_shelve("上架中");
-    	proVO2.setPro_all_assess(6);
-    	proVO2.setPro_all_assessman(100);
-    	System.out.println("成功修改" + proDAO.update(proVO2));
+//        //修改
+//        ProductVO proVO2 = new ProductVO();
+//        proVO2.setPro_no("P001");  
+//        proVO2.setPro_classid("PT001");
+//        proVO2.setPro_name("AddiEs");
+//        proVO2.setPro_pic(null);
+//        proVO2.setPro_pic_ext("TEST");
+//        proVO2.setPro_format("TEST");
+//        proVO2.setPro_bonus(3000);
+//        proVO2.setPro_stock(50);
+//        proVO2.setPro_safestock(10);
+//    	proVO2.setPro_details("test...................");
+//    	proVO2.setPro_shelve("上架中");
+//    	proVO2.setPro_all_assess(6);
+//    	proVO2.setPro_all_assessman(100);
+//    	System.out.println("成功修改" + proDAO.update(proVO2));
       
-//		//單筆查詢
-//    	ProductVO proVO3 = proDAO.findByPK("P001");
-//    	System.out.println(proVO3.getPro_no() + ",");
-//    	System.out.println(proVO3.getPro_classid() + ",");
-//    	System.out.println(proVO3.getPro_name() + ",");
-//    	System.out.println(proVO3.getPro_pic() + ",");
-//    	System.out.println(proVO3.getPro_pic_ext() + ",");
-//    	System.out.println(proVO3.getPro_format() + ",");
-//    	System.out.println(proVO3.getPro_bonus() + ",");
-//    	System.out.println(proVO3.getPro_stock() + ",");
-//    	System.out.println(proVO3.getPro_safestock() + ",");
-//    	System.out.println(proVO3.getPro_details() + ",");
-//    	System.out.println(proVO3.getPro_shelve() + ",");
-//    	System.out.println(proVO3.getPro_all_assess() + ",");
-//    	System.out.println(proVO3.getPro_all_assessman() + ",");
-//    	System.out.println("-------------------------------------");
+		//單筆查詢
+    	ProductVO proVO3 = proDAO.findByPK("P001");
+    	System.out.println(proVO3.getPro_no() + ",");
+    	System.out.println(proVO3.getPro_classid() + ",");
+    	System.out.println(proVO3.getPro_name() + ",");
+    	System.out.println(proVO3.getPro_pic() + ",");
+    	System.out.println(proVO3.getPro_pic_ext() + ",");
+    	System.out.println(proVO3.getPro_format() + ",");
+    	System.out.println(proVO3.getPro_bonus() + ",");
+    	System.out.println(proVO3.getPro_stock() + ",");
+    	System.out.println(proVO3.getPro_safestock() + ",");
+    	System.out.println(proVO3.getPro_details() + ",");
+    	System.out.println(proVO3.getPro_shelve() + ",");
+    	System.out.println(proVO3.getPro_all_assess() + ",");
+    	System.out.println(proVO3.getPro_all_assessman() + ",");
+    	System.out.println("-------------------------------------");
 // 
 //    	//多筆查詢
 //    	List<ProductVO> provolist = proDAO.getAll();

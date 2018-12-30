@@ -330,7 +330,7 @@ public class ProductJDBCDAO implements ProductDAO_interface{
 			
 			ps.setString(1, pro_no);
 			rs = ps.executeQuery();
-			
+		
 			while (rs.next()) {
 				proVO = new ProductVO();
 				proVO.setPro_no(rs.getString("PRO_NO"));

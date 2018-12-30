@@ -1,9 +1,16 @@
 package com.shoppingcart.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.product.model.ProductJDBCDAO;
+import com.product.model.ProductService;
+import com.product.model.ProductVO;
 
 import redis.clients.jedis.Jedis;
 
@@ -33,14 +40,64 @@ public class ShoppingcartDAO implements Shoppingcart_interface{
 		jedis.close();
 	}
 	
+
+	@Override
+	public Map<String , String> getAll(String mem_no) {
+		Jedis jedis = new Jedis(HOST, PORT);
+		jedis.auth(AUTH);
+		List<ProductVO> proVOList = new ArrayList<>();
+		List<Integer> pro_countList = new ArrayList<>();
+		ProductService proSvc = new ProductService();
+		ProductJDBCDAO proDAO = new ProductJDBCDAO();//test
+		
+		
+		Map<String , String> hAll = jedis.hgetAll(mem_no);
+//		for (String pro_no : hAll.keySet()) {
+//			proVOList.add(proSvc.getOneProduct(pro_no));
+//			pro_countList.add(Integer.parseInt(hAll.get(pro_no)));
+//		}
+		
+		
+		 return hAll;
+	}
+	
 	public static void main(String[] args) {
 		
-		ShoppingcartDAO carDAO = new ShoppingcartDAO();
+		ShoppingcartDAO cartDAO = new ShoppingcartDAO();
 		
 		ShoppingcartVO cartVO = new ShoppingcartVO();
-		cartVO.setMem_no("M001");
-		cartVO.setPro_no("p03");
-		cartVO.setPro_count(500);
-		carDAO.insert(cartVO);
+//		cartVO.setMem_no("M001");
+//		cartVO.setPro_no("P002");
+//		cartVO.setPro_count(1600);
+//		cartDAO.insert(cartVO);
+		
+		List<ProductVO> proVOList = new ArrayList<>();
+		ProductService proSvc = new ProductService();
+		Map<String , String> hAll =  cartDAO.getAll("M001");
+//		String pro_no = "P001";
+		for (String pro_no : hAll.keySet()) {
+			proVOList.add(proSvc.getOneProduct(pro_no));
+
+		}
+		
+    	//多筆查詢
+    	List<ProductVO> provolist =proVOList;
+    	for (ProductVO proVO4 : provolist) {
+        	System.out.println(proVO4.getPro_no() + ",");
+        	System.out.println(proVO4.getPro_classid() + ",");
+        	System.out.println(proVO4.getPro_name() + ",");
+        	System.out.println(proVO4.getPro_pic() + ",");
+        	System.out.println(proVO4.getPro_pic_ext() + ",");
+        	System.out.println(proVO4.getPro_format() + ",");
+        	System.out.println(proVO4.getPro_bonus() + ",");
+        	System.out.println(proVO4.getPro_stock() + ",");
+        	System.out.println(proVO4.getPro_safestock() + ",");
+        	System.out.println(proVO4.getPro_details() + ",");
+        	System.out.println(proVO4.getPro_shelve() + ",");
+        	System.out.println(proVO4.getPro_all_assess() + ",");
+        	System.out.println(proVO4.getPro_all_assessman() + ",");
+        	System.out.println("-----------------------------------");
+    	}
+		
 	}
 }
