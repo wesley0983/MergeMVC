@@ -1,6 +1,7 @@
 package com.ord.controller;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -8,13 +9,16 @@ import javax.servlet.*;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
 
+import com.ord.model.OrdJDBCDAO;
 import com.ord.model.OrdService;
 import com.ord.model.OrdVO;
+import com.orddetails.model.OrddetailsVO;
 import com.pro.controller.ProServlet;
 import com.product.model.ProductService;
 import com.product.model.ProductVO;
 import com.productclass.model.ProductClassService;
 import com.productclass.model.ProductClassVO;
+import com.shoppingcart.model.ShoppingcartDAO;
 
 import sun.misc.IOUtils;
 
@@ -48,11 +52,16 @@ if ("insert".equals(action)) { //來自addPro.jsp的請求
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
-
+System.out.println("test");
 			try {
 				/***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/
 				String integerReg = "([0-9]{0,7})";
-				String pro_no = req.getParameter("pro_no");
+//				String pro_no = req.getParameter("pro_no");
+//				System.out.println("pro_no" + pro_no);
+//				if(pro_no == null || pro_no.trim().length() == 0) {
+//					errorMsgs.add("未購買商品");
+//				}
+				
 				//解析網頁送來的圖片
 //				Part part = req.getPart("pro_pic");			
 //				InputStream in = part.getInputStream();	
@@ -64,75 +73,80 @@ if ("insert".equals(action)) { //來自addPro.jsp的請求
 				//拿取網頁資料
 		
 
-		String mem_no = req.getParameter("mem_no");//測試會員登入後拿的到到會員資料
-				if (mem_no == null || mem_no.trim().length() == 0) {
-					errorMsgs.add("會員編號請勿空白");
-				}
+				HttpSession session = req.getSession();
+				//會員編號
+				String mem_no = session.getAttribute("mem_no").toString();//********需要把listAllPro_front.jsp中的session拿掉接正式版的會員********
+//				if(mem_no == null || mem_no.trim().length() == 0) {
+//					errorMsgs.add("未登入會員");
+//				}
+				//下單日期(sql自動)
+//				java.sql.Timestamp ord_date = null;
+//				try {
+//					ord_date = java.sql.Timestamp.valueOf(req.getParameter("ord_date").trim());
+//				} catch (NullPointerException e) {
+//					ord_date = new Timestamp(System.currentTimeMillis());
+//					errorMsgs.add("下單日期測試");
+//				}
 				
-				java.sql.Timestamp ord_date = null;
-				try {
-					ord_date = java.sql.Timestamp.valueOf(req.getParameter("ord_date").trim());
-				} catch (NullPointerException e) {
-					ord_date = new Timestamp(System.currentTimeMillis());
-					errorMsgs.add("下單日期測試");
-				}
-				
-				
+				//出貨日期
 				java.sql.Timestamp ord_deldate = null;
-				try {
-					ord_deldate = java.sql.Timestamp.valueOf(req.getParameter("ord_deldate").trim());
-				} catch (NullPointerException e) {
-					ord_deldate = new Timestamp(System.currentTimeMillis());
-					errorMsgs.add("出貨日期測試");
-				}
-				
-				String ord_status = req.getParameter("ord_status");
-				if (ord_status == null || ord_status.trim().length() == 0) {
-					errorMsgs.add("狀態請勿空白");
-				}
+//				try {
+//					ord_deldate = java.sql.Timestamp.valueOf(req.getParameter("ord_deldate").trim());
+//				} catch (NullPointerException e) {
+//					ord_deldate = new Timestamp(System.currentTimeMillis());
+//					errorMsgs.add("出貨日期測試");
+//				}
+				//訂單狀態
+//				String ord_status = req.getParameter("ord_status");
+				String ord_status = "待出貨";
+//				if (ord_status == null || ord_status.trim().length() == 0) {
+//					errorMsgs.add("狀態請勿空白");
+//				}
 	
-			
+			    //退貨日期
 				java.sql.Timestamp ord_backdeldate = null;
-				try {
-					ord_backdeldate = java.sql.Timestamp.valueOf(req.getParameter("ord_backdeldate").trim());
-				} catch (NullPointerException e) {
-					ord_backdeldate = new Timestamp(System.currentTimeMillis());
-					errorMsgs.add("退貨日期測試");
-				}
-				
+//				try {
+//					ord_backdeldate = java.sql.Timestamp.valueOf(req.getParameter("ord_backdeldate").trim());
+//				} catch (NullPointerException e) {
+//					ord_backdeldate = new Timestamp(System.currentTimeMillis());
+//					errorMsgs.add("退貨日期測試");
+//				}
+				//訂單金額
 				Integer ord_amount = null;
-				try {
-					if(!req.getParameter("ord_amount").trim().matches(integerReg)) {
-						 errorMsgs.add("訂單金額請勿非數字");
-						 ProductService proSvc  = new ProductService();//須改
-						 ord_amount = proSvc.getOneProduct(pro_no).getPro_safestock();//須改
-					 } else {
-						 ord_amount = new Integer(req.getParameter("ord_amount").trim());
-					 }
-				} catch (NumberFormatException e) {
-					errorMsgs.add("訂單金額請勿空白");
-				}
+//				try {
+//					if(!req.getParameter("ord_amount").trim().matches(integerReg)) {
+//						 errorMsgs.add("訂單金額請勿非數字");
+//						 ProductService proSvc  = new ProductService();//須改
+//						 ord_amount = proSvc.getOneProduct(pro_no).getPro_safestock();//須改
+//					 } else {
+//						 ord_amount = new Integer(req.getParameter("ord_amount").trim());
+//					 }
+//				} catch (NumberFormatException e) {
+//					errorMsgs.add("訂單金額請勿空白");
+//				}
 				
-				
+				//退貨金額
 				Integer ord_backamount = null;
-				try {
-					if(!req.getParameter("ord_backamount").trim().matches(integerReg)) {
-						 errorMsgs.add("退貨金額請勿非數字");
-						 ProductService proSvc  = new ProductService();//須改
-						 ord_backamount = proSvc.getOneProduct(pro_no).getPro_safestock();//須改
-					 } else {
-						 ord_backamount = new Integer(req.getParameter("ord_backamount").trim());
-					 }
-				} catch (NumberFormatException e) {
-					errorMsgs.add("退貨金額請勿空白");
-				}
+//				try {
+//					if(!req.getParameter("ord_backamount").trim().matches(integerReg)) {
+//						 errorMsgs.add("退貨金額請勿非數字");
+//						 ProductService proSvc  = new ProductService();//須改
+//						 ord_backamount = proSvc.getOneProduct(pro_no).getPro_safestock();//須改
+//					 } else {
+//						 ord_backamount = new Integer(req.getParameter("ord_backamount").trim());
+//					 }
+//				} catch (NumberFormatException e) {
+//					errorMsgs.add("退貨金額請勿空白");
+//				}
+				
+				
 
 				
 					
-				
+				System.out.println("test1");
 				OrdVO ordVO = new OrdVO();
-				//ordVO.setOrd_no(ord_no); 自動
-				ordVO.setMem_no("M001");
+				//ordVO.setOrd_no(ord_no); jdbc以用sql自動  
+				ordVO.setMem_no(mem_no);
 //				ordVO.setOrd_date(ord_date);  jdbc以用sql自動  
 				ordVO.setOrd_deldate(ord_deldate);
 				ordVO.setOrd_status(ord_status);
@@ -140,9 +154,32 @@ if ("insert".equals(action)) { //來自addPro.jsp的請求
 				ordVO.setOrd_amount(ord_amount);
 				ordVO.setOrd_backamount(ord_backamount);
 				
+				//從reids取得getAll
+				ProductService proSvc1 = new ProductService();
+				ShoppingcartDAO cartDAO = new ShoppingcartDAO();
+				List<ProductVO> proVOList = new ArrayList<>();
+				List<Integer> pro_countList = new ArrayList<>();
+				Map<String , String> hAll =  cartDAO.getAll(mem_no);
+				for(String return_pro_no : hAll.keySet()) {
+					proVOList.add(proSvc1.getOneProduct(return_pro_no));
+					pro_countList.add(Integer.parseInt(hAll.get(pro_no)));
+				}
+				Class clz = Class.forName("com.orddetails.model.OrddetailsVO");
+				OrddetailsVO[] students = (OrddetailsVO[]) Array.newInstance(clz, hAll.size());
+                System.out.println("mapsize:"+students);
+//				OrdJDBCDAO ordDAO = new OrdJDBCDAO();
+//				List<OrddetailsVO> testList = new ArrayList<OrddetailsVO>(); // 準備置入訂單數量
+//				
+//				OrddetailsVO orddetailsVO_1 = new OrddetailsVO();
+//				orddetailsVO_1.setPro_no("P001");//需要抓取商品編號
+//				orddetailsVO_1.setOrd_probonuns(666);
+//				orddetailsVO_1.setPro_count(777);
+//				
+//				testList.add(orddetailsVO_1);
+//				
+//				ordDAO.insertWithOrdds( ordVO, testList);
 				
 				
-
 //				ProductVO proVO = new ProductVO();
 //				proVO.setPro_classid(pro_classid);
 //		        proVO.setPro_name(pro_name);
@@ -184,9 +221,10 @@ if ("insert".equals(action)) { //來自addPro.jsp的請求
 				
 				/***************************其他可能的錯誤處理**********************************/
 			} catch (Exception e) {
-				RequestDispatcher failureView = req
-						.getRequestDispatcher(PATH_ADDPRO);
-				failureView.forward(req, res);
+//				RequestDispatcher failureView = req
+//						.getRequestDispatcher(PATH_FRONT_LIST_ALL_PRO);
+//				failureView.forward(req, res);
+				e.printStackTrace();
 			}
 		}
 

@@ -7,7 +7,8 @@
 
 <%
 	List<ProductVO> proVOList = (List<ProductVO>) request.getAttribute("proVOList");
-	Map<String , String> pro_countMap = (Map<String , String>) request.getAttribute("hAll");
+// 	Map<String , String> pro_countMap = (Map<String , String>) request.getAttribute("hAll");
+    Integer test ;
 
 %>
 <jsp:useBean id="proclassSvc" scope="page" class="com.productclass.model.ProductClassService" />
@@ -299,16 +300,20 @@
 																								</td>
 																								<!-- 商品數量 -->
 																								<td>
-																									test
+																									${hAll[proVO.pro_no]}
 																								</td>
 																								<!-- 商品總計 -->
 																								<td>
-																									test
+																									${hAll[proVO.pro_no] * proVO.pro_bonus}
+<%-- 																									test = ${hAll[proVO.pro_no] * proVO.pro_bonus} --%>
 																								</td>
 																								<!-- 下拉式按鈕 -->
 																								<td>
+																								<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/shoppingCartServlet/shoppingCartServlet.do" name="form1" enctype="multipart/form-data">
 																									<input type="hidden" name="pro_no" value="${proVO.pro_no}">
 																									<input type="submit" value="刪除">
+																									<input type="hidden" name="action" value="delete">
+																								</FORM>
 																								</td>
 																							</tr>
 																						</c:forEach>
@@ -329,7 +334,7 @@
 										<div class="container-fluid">
 											<div class="row">
 													<!-- 表單 -->
-													<FORM >
+													
 														<div class="container-fluid warp">
 															<div class="row">
 																<!-- 容器區 -->
@@ -341,13 +346,18 @@
 																		<!-- 關鍵字搜尋 -->
 																			
 																		<div>
+																			<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/ord/ord.do" name="form1" enctype="multipart/form-data">
 																			<input type="submit" value="去買單">
+																			
+<!-- 																			<input type="hidden" name="ord_amount" value="test"> -->
+																			<input type="hidden" name="action" value="insert">
+																			</FORM>
 																		</div>
 																	</div>
 																</div>
 															</div>
 														</div>
-													</FORM>			
+															
 												
 												
 											</div>

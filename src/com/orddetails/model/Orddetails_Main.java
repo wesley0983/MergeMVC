@@ -12,7 +12,7 @@ public class Orddetails_Main {
 		
 //		//新增 需要注意兩個fk 有無資料
 //		OrddetailsVO orddetailsVO = new OrddetailsVO();
-//		orddetailsVO.setOrd_no("20181212-000003");
+//		orddetailsVO.setOrd_no("20181231-000029");
 //		orddetailsVO.setPro_no("P001");
 //		orddetailsVO.setOrd_probonuns(9999);
 //		orddetailsVO.setPro_count(50);

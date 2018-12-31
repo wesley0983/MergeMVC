@@ -10,4 +10,7 @@ public interface Shoppingcart_interface {
 	public abstract void insert (ShoppingcartVO shoppingcartVO);
 	//查詢全部
 	public abstract Map<String , String> getAll (String mem_no);
+	//移除
+	public abstract void delete (String mem_no,String pro_no) ;
+
 }

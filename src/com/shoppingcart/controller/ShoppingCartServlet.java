@@ -132,6 +132,42 @@ public class ShoppingCartServlet extends HttpServlet{
 			RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交lisOnePro_front.jsp
 			successView.forward(req, res);	
 		}
+		if("delete".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+			HttpSession session = req.getSession();
+			
+			String mem_no = session.getAttribute("mem_no").toString();//********需要把listAllPro_front.jsp中的session拿掉接正式版的會員********
+			if(mem_no == null || mem_no.trim().length() == 0) {
+				errorMsgs.add("未登入會員");
+			}
+			String pro_no = req.getParameter("pro_no");
+			if(pro_no == null || pro_no.trim().length() == 0) {
+				errorMsgs.add("未選取商品");
+			}
+			ShoppingcartDAO cartDAO = new ShoppingcartDAO();
+			cartDAO.delete(mem_no, pro_no);
+			
+			ProductService proSvc = new ProductService();
+			List<ProductVO> proVOList = new ArrayList<>();
+			List<Integer> pro_countList = new ArrayList<>();
+			Map<String , String> hAll =  cartDAO.getAll(mem_no);
+			for(String pro_no1 : hAll.keySet()) {
+				proVOList.add(proSvc.getOneProduct(pro_no1));
+//				pro_countList.add(Integer.parseInt(hAll.get(pro_no)));
+			}
+			
+			/***************************4.準備轉交(Send the Success view)***********/
+			req.setAttribute("proVOList", proVOList);
+			req.setAttribute("hAll", hAll);
+			String url = PATH_SHOPPINGCART;
+			RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交lisOnePro_front.jsp
+			successView.forward(req, res);	
+		
+			
+		}
 
 	}
 }

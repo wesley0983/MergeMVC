@@ -5,8 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+
 
 import com.product.model.ProductJDBCDAO;
 import com.product.model.ProductService;
@@ -56,48 +55,64 @@ public class ShoppingcartDAO implements Shoppingcart_interface{
 //			proVOList.add(proSvc.getOneProduct(pro_no));
 //			pro_countList.add(Integer.parseInt(hAll.get(pro_no)));
 //		}
-		
+//		jedis.hdel("M001", "P001");
 		
 		 return hAll;
+	}
+	
+	@Override
+	public void delete(String mem_no, String pro_no) {
+		Jedis jedis = new Jedis(HOST, PORT);
+		jedis.auth(AUTH);
+		jedis.hdel(mem_no, pro_no);
+		
 	}
 	
 	public static void main(String[] args) {
 		
 		ShoppingcartDAO cartDAO = new ShoppingcartDAO();
 		
+		//放入
 		ShoppingcartVO cartVO = new ShoppingcartVO();
 //		cartVO.setMem_no("M001");
 //		cartVO.setPro_no("P002");
 //		cartVO.setPro_count(1600);
 //		cartDAO.insert(cartVO);
 		
-		List<ProductVO> proVOList = new ArrayList<>();
-		ProductService proSvc = new ProductService();
-		Map<String , String> hAll =  cartDAO.getAll("M001");
-//		String pro_no = "P001";
-		for (String pro_no : hAll.keySet()) {
-			proVOList.add(proSvc.getOneProduct(pro_no));
-
-		}
+//		//取出
+//		List<ProductVO> proVOList = new ArrayList<>();
+//		ProductService proSvc = new ProductService();
+//		Map<String , String> hAll =  cartDAO.getAll("M001");
+////		String pro_no = "P001";
+//		for (String pro_no : hAll.keySet()) {
+//			proVOList.add(proSvc.getOneProduct(pro_no));
+//
+//		}
 		
-    	//多筆查詢
-    	List<ProductVO> provolist =proVOList;
-    	for (ProductVO proVO4 : provolist) {
-        	System.out.println(proVO4.getPro_no() + ",");
-        	System.out.println(proVO4.getPro_classid() + ",");
-        	System.out.println(proVO4.getPro_name() + ",");
-        	System.out.println(proVO4.getPro_pic() + ",");
-        	System.out.println(proVO4.getPro_pic_ext() + ",");
-        	System.out.println(proVO4.getPro_format() + ",");
-        	System.out.println(proVO4.getPro_bonus() + ",");
-        	System.out.println(proVO4.getPro_stock() + ",");
-        	System.out.println(proVO4.getPro_safestock() + ",");
-        	System.out.println(proVO4.getPro_details() + ",");
-        	System.out.println(proVO4.getPro_shelve() + ",");
-        	System.out.println(proVO4.getPro_all_assess() + ",");
-        	System.out.println(proVO4.getPro_all_assessman() + ",");
-        	System.out.println("-----------------------------------");
-    	}
+//    	//多筆查詢
+//    	List<ProductVO> provolist =proVOList;
+//    	for (ProductVO proVO4 : provolist) {
+//        	System.out.println(proVO4.getPro_no() + ",");
+//        	System.out.println(proVO4.getPro_classid() + ",");
+//        	System.out.println(proVO4.getPro_name() + ",");
+//        	System.out.println(proVO4.getPro_pic() + ",");
+//        	System.out.println(proVO4.getPro_pic_ext() + ",");
+//        	System.out.println(proVO4.getPro_format() + ",");
+//        	System.out.println(proVO4.getPro_bonus() + ",");
+//        	System.out.println(proVO4.getPro_stock() + ",");
+//        	System.out.println(proVO4.getPro_safestock() + ",");
+//        	System.out.println(proVO4.getPro_details() + ",");
+//        	System.out.println(proVO4.getPro_shelve() + ",");
+//        	System.out.println(proVO4.getPro_all_assess() + ",");
+//        	System.out.println(proVO4.getPro_all_assessman() + ",");
+//        	System.out.println("-----------------------------------");
+//    	}
+		
+//		//移除
+//		String mem_no = "M001";
+//		String pro_no = "P001";
+//		cartDAO.delete(mem_no, pro_no);
 		
 	}
+	
 }

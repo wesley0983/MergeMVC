@@ -255,8 +255,8 @@ public class OrddetailsJDBCDAO implements Orddetails_interface{
 		PreparedStatement ps = null;
 		
 		try {
-
-			con.prepareStatement(INSERT);
+			
+			ps = con.prepareStatement(INSERT);
 			ps.setString(1, orddetailsVO.getOrd_no());
 			ps.setString(2, orddetailsVO.getPro_no());
 			ps.setInt(3, orddetailsVO.getOrd_probonuns());
