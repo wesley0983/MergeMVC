@@ -81,7 +81,7 @@ public class ShoppingCartServlet extends HttpServlet{
 			ProductVO proVO = proSvc.getOneProduct(pro_no); //資料庫取出的proVO物件,
 			req.setAttribute("proVO", proVO);               // 存入req
 			/***************************4.新增完成,準備轉交(Send the Success view)***********/
-			String url = PATH_SHOPPINGCART;
+			String url = PATH_LISTONEPRO_FRONT;
 			RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交lisOnePro_front.jsp
 			successView.forward(req, res);	
 			

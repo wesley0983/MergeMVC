@@ -56,11 +56,16 @@ System.out.println("test");
 			try {
 				/***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/
 				String integerReg = "([0-9]{0,7})";
-				String pro_no = req.getParameter("pro_no");
-				System.out.println("pro_no" + pro_no);
-				if(pro_no == null || pro_no.trim().length() == 0) {
-					errorMsgs.add("未購買商品");
-				}
+				String[] pro_no = req.getParameterValues("pro_no");
+                for(int i = 0 ; i < pro_no.length ; i ++) {
+                	
+                	System.out.println("checkbox:" + pro_no[i]);
+                }
+//				String pro_no = req.getParameter("pro_no");
+//				System.out.println("pro_no" + pro_no);
+//				if(pro_no == null || pro_no.trim().length() == 0) {
+//					errorMsgs.add("未購買商品");
+//				}
 				
 				//解析網頁送來的圖片
 //				Part part = req.getPart("pro_pic");			
@@ -112,7 +117,7 @@ System.out.println("test");
 //					errorMsgs.add("退貨日期測試");
 //				}
 				//訂單金額
-				Integer ord_amount = null;
+				Integer ord_amount = 0;
 //				try {
 //					if(!req.getParameter("ord_amount").trim().matches(integerReg)) {
 //						 errorMsgs.add("訂單金額請勿非數字");
@@ -126,7 +131,7 @@ System.out.println("test");
 //				}
 				
 				//退貨金額
-				Integer ord_backamount = null;
+				Integer ord_backamount = 0;
 //				try {
 //					if(!req.getParameter("ord_backamount").trim().matches(integerReg)) {
 //						 errorMsgs.add("退貨金額請勿非數字");
@@ -141,9 +146,26 @@ System.out.println("test");
 				
 				
 
+				/***********測試*************/
+				/*訂單有一些會是null與0的情況
+				 * 前端部分因為有兩個form表單的問題，所以刪除按鈕可能需要用ajax處理
+				 */
+				ProductService proSvc1 = new ProductService();
+				List<OrddetailsVO> testList = new ArrayList<OrddetailsVO>(); // 準備置入訂單數量
+				for(int i = 0 ; i < pro_no.length ; i ++) {
+                	Integer pro_bonus = proSvc1.getOneProduct(pro_no[i]).getPro_bonus();
+                	ord_amount += pro_bonus;
+					testList.add(i, new OrddetailsVO(pro_no[i] , pro_bonus,666));
+                	System.out.println("checkbox:" + pro_no[i]);
+                }
+				for(int i = 0 ; i < testList.size() ; i ++) {
+					System.out.println(testList.get(i).getPro_no());
+				}
+						
 				
-					
-				System.out.println("test1");
+				/****訂單項目測試***/
+				OrdJDBCDAO ordDAO = new OrdJDBCDAO();
+				System.out.println("沒有exception");
 				OrdVO ordVO = new OrdVO();
 				//ordVO.setOrd_no(ord_no); jdbc以用sql自動  
 				ordVO.setMem_no(mem_no);
@@ -153,20 +175,22 @@ System.out.println("test");
 				ordVO.setOrd_backdeldate(ord_backdeldate);
 				ordVO.setOrd_amount(ord_amount);
 				ordVO.setOrd_backamount(ord_backamount);
+				ordDAO.insertWithOrdds(ordVO, testList);
+
 				
 				//從reids取得getAll
-				ProductService proSvc1 = new ProductService();
-				ShoppingcartDAO cartDAO = new ShoppingcartDAO();
-				List<ProductVO> proVOList = new ArrayList<>();
-				List<Integer> pro_countList = new ArrayList<>();
-				Map<String , String> hAll =  cartDAO.getAll(mem_no);
-				for(String return_pro_no : hAll.keySet()) {
-					proVOList.add(proSvc1.getOneProduct(return_pro_no));
-					pro_countList.add(Integer.parseInt(hAll.get(pro_no)));
-				}
-				Class clz = Class.forName("com.orddetails.model.OrddetailsVO");
-				OrddetailsVO[] students = (OrddetailsVO[]) Array.newInstance(clz, hAll.size());
-                System.out.println("mapsize:"+students);
+//				ProductService proSvc1 = new ProductService();
+//				ShoppingcartDAO cartDAO = new ShoppingcartDAO();
+//				List<ProductVO> proVOList = new ArrayList<>();
+//				List<Integer> pro_countList = new ArrayList<>();
+//				Map<String , String> hAll =  cartDAO.getAll(mem_no);
+//				for(String return_pro_no : hAll.keySet()) {
+//					proVOList.add(proSvc1.getOneProduct(return_pro_no));
+//					pro_countList.add(Integer.parseInt(hAll.get(pro_no)));
+//				}
+//				Class clz = Class.forName("com.orddetails.model.OrddetailsVO");
+//				OrddetailsVO[] students = (OrddetailsVO[]) Array.newInstance(clz, hAll.size());
+//                System.out.println("mapsize:"+students);
 //				OrdJDBCDAO ordDAO = new OrdJDBCDAO();
 //				List<OrddetailsVO> testList = new ArrayList<OrddetailsVO>(); // 準備置入訂單數量
 //				

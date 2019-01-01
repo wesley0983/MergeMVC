@@ -231,10 +231,11 @@
 							</c:forEach>
 						</ul>
 					</c:if>
+
+					
 										<div class="container-fluid">
 											<div class="row">
 													<!-- 表單 -->
-													<FORM >
 														<div class="container-fluid warp">
 															<div class="row">
 																<!-- 容器區 -->
@@ -281,11 +282,13 @@
 																					</thead>
 																					<tbody>
 																						<jsp:useBean id="productClassSvc" scope="page" class="com.productclass.model.ProductClassService" />
+																						<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/ord/ord.do" name="form1" enctype="multipart/form-data">
 																						<c:forEach var="proVO" items="${proVOList}">
 																							<tr>
 																								<td>
 																								<!-- 核取方塊大小 -->
-																									<input type="checkbox" name="">
+																									<input type="checkbox" name="pro_no" value="${proVO.pro_no}">
+
 																								</td>
 																								<!-- 商品圖片名稱 -->
 																								<td style="text-align: left;">
@@ -305,20 +308,28 @@
 																								<!-- 商品總計 -->
 																								<td>
 																									${hAll[proVO.pro_no] * proVO.pro_bonus}
-<%-- 																									${test:Total(hAll[proVO.pro_no] * proVO.pro_bonus)} --%>
+																									
 																									
 																								</td>
 																								<!-- 下拉式按鈕 -->
 																								<td>
-																								<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/shoppingCartServlet/shoppingCartServlet.do" name="form1" enctype="multipart/form-data">
-																									<input type="hidden" name="pro_no" value="${proVO.pro_no}">
-																									<input type="submit" value="刪除">
-																									<input type="hidden" name="action" value="delete">
-																								</FORM>
+<%-- 																									<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/shoppingCartServlet/shoppingCartServlet.do" name="form1" enctype="multipart/form-data"> --%>
+<%-- 																										<input type="hidden" name="pro_no" value="${proVO.pro_no}"> --%>
+<!-- 																										<input type="submit" value="刪除"> -->
+<!-- 																										<input type="hidden" name="action" value="delete"> -->
+<!-- 																									</FORM> -->
 																								</td>
 																							</tr>
 																						</c:forEach>
-
+																						<div>
+																	
+																							<input type="submit" value="去買單">
+																							
+																							<input type="hidden" name="ord_amount" value="test"> 
+																							<input type="hidden" name="action" value="insert">
+																							
+																						</div>
+                                                                                    </FORM>
 																					</tbody>
 																				</table>
 																				
@@ -326,7 +337,7 @@
 																</div>
 															</div>
 														</div>
-													</FORM>			
+															
 												
 												
 											</div>
@@ -334,35 +345,29 @@
 
 										<div class="container-fluid">
 											<div class="row">
-													<!-- 表單 -->
-													
-														<div class="container-fluid warp">
+												<div class="container-fluid warp">
+													<div class="row">
+														<!-- 容器區 -->
+														<div class="container-fluid warpwidth">
 															<div class="row">
-																<!-- 容器區 -->
-																<div class="container-fluid warpwidth">
-																	<div class="row">
-																		<div>
-																			<h2 class="fontsize">?件商品
-																			${test }
-																			</h2>
-																		</div>
-																		<!-- 關鍵字搜尋 -->
-																			
-																		<div>
-																			<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/ord/ord.do" name="form1" enctype="multipart/form-data">
-																			<input type="submit" value="去買單">
-																			
-<!-- 																			<input type="hidden" name="ord_amount" value="test"> -->
-																			<input type="hidden" name="action" value="insert">
-																			</FORM>
-																		</div>
-																	</div>
+																<div>
+																	<h2 class="fontsize">?件商品
+																	${test }
+																	</h2>
+																</div>
+																<!-- 關鍵字搜尋 -->
+																<div>
+																	
+																	<input type="submit" value="去買單">
+																	
+																	<input type="hidden" name="ord_amount" value="test"> 
+																	<input type="hidden" name="action" value="insert">
+																	
 																</div>
 															</div>
 														</div>
-															
-												
-												
+													</div>
+												</div>
 											</div>
 										</div>
 

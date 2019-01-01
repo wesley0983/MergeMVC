@@ -23,7 +23,7 @@ public class HelloGet extends HttpServlet{
 //        res.sendError(500);
 //        res.sendError(res.SC_NOT_FOUND, "�ФĿ�checkbox");
 		if(name == null) {
-		     out.println("<h1>�ФĿ�checkbox</h1>");	
+		     out.println("<h1>未輸入checkbox</h1>");	
 		} else {
 		    for(int i = 0 ; i < name.length ; i ++) {		 
 				 out.println("<html>");

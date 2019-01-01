@@ -73,10 +73,10 @@ public class ShoppingcartDAO implements Shoppingcart_interface{
 		ShoppingcartDAO cartDAO = new ShoppingcartDAO();
 		
 		//放入
-		ShoppingcartVO cartVO = new ShoppingcartVO();
+//		ShoppingcartVO cartVO = new ShoppingcartVO();
 //		cartVO.setMem_no("M001");
-//		cartVO.setPro_no("P002");
-//		cartVO.setPro_count(1600);
+//		cartVO.setPro_no("P004");
+//		cartVO.setPro_count(7770);
 //		cartDAO.insert(cartVO);
 		
 //		//取出
