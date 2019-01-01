@@ -56,11 +56,11 @@ System.out.println("test");
 			try {
 				/***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/
 				String integerReg = "([0-9]{0,7})";
-//				String pro_no = req.getParameter("pro_no");
-//				System.out.println("pro_no" + pro_no);
-//				if(pro_no == null || pro_no.trim().length() == 0) {
-//					errorMsgs.add("未購買商品");
-//				}
+				String pro_no = req.getParameter("pro_no");
+				System.out.println("pro_no" + pro_no);
+				if(pro_no == null || pro_no.trim().length() == 0) {
+					errorMsgs.add("未購買商品");
+				}
 				
 				//解析網頁送來的圖片
 //				Part part = req.getPart("pro_pic");			

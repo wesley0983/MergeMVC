@@ -305,7 +305,8 @@
 																								<!-- 商品總計 -->
 																								<td>
 																									${hAll[proVO.pro_no] * proVO.pro_bonus}
-<%-- 																									test = ${hAll[proVO.pro_no] * proVO.pro_bonus} --%>
+<%-- 																									${test:Total(hAll[proVO.pro_no] * proVO.pro_bonus)} --%>
+																									
 																								</td>
 																								<!-- 下拉式按鈕 -->
 																								<td>
@@ -341,7 +342,9 @@
 																<div class="container-fluid warpwidth">
 																	<div class="row">
 																		<div>
-																			<h2 class="fontsize">?件商品</h2>
+																			<h2 class="fontsize">?件商品
+																			${test }
+																			</h2>
 																		</div>
 																		<!-- 關鍵字搜尋 -->
 																			
