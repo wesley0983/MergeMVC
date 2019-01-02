@@ -283,11 +283,11 @@ public class OrdJDBCDAO implements OrdDAO_interface{
 		return ordVOList;
 	}
 	@Override
-	public void insertWithOrdds(OrdVO ordVO, List<OrddetailsVO> list) {
+	public String insertWithOrdds(OrdVO ordVO, List<OrddetailsVO> list) {
 		
 		Connection con = null;
 		PreparedStatement ps = null;
-
+		String next_ord_no = null;
 		try {
 
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -308,7 +308,7 @@ public class OrdJDBCDAO implements OrdDAO_interface{
 			ps.setInt(6,ordVO.getOrd_backamount());
 			ps.executeUpdate();
 			//掘取對應的自增主鍵值
-			String next_ord_no = null;
+			
 			ResultSet rs = ps.getGeneratedKeys();
 			if(rs.next()) {
 				next_ord_no = rs.getString(1);
@@ -379,6 +379,7 @@ public class OrdJDBCDAO implements OrdDAO_interface{
 				}
 			}
 		}
+	    return next_ord_no;
 	}
 	public static void main (String[] args) {
 		OrdJDBCDAO ordDAO = new OrdJDBCDAO();

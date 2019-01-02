@@ -64,7 +64,8 @@ public class ShoppingCartServlet extends HttpServlet{
 			Integer pro_count = new Integer(req.getParameter("pro_count"));//未驗證
 			
 			
-			
+			System.out.println("mem_no :" + mem_no);
+			System.out.println("pro_no :" + pro_no);
 			
 			ShoppingcartVO cartVO = new ShoppingcartVO();
 			cartVO.setMem_no(mem_no);
@@ -84,10 +85,17 @@ public class ShoppingCartServlet extends HttpServlet{
 			ProductService proSvc = new ProductService();   //準備再次使用pro_no取得proVO物件
 			ProductVO proVO = proSvc.getOneProduct(pro_no); //資料庫取出的proVO物件,
 			req.setAttribute("proVO", proVO);               // 存入req
+			res.setContentType("text/plain");
+			res.setCharacterEncoding("UTF-8");
+			PrintWriter out = res.getWriter();
+			String job = new JSONObject().toString();//需要回傳不然ajax會出錯
+			out.write(job);
+			out.flush();
+			out.close();
 			/***************************4.新增完成,準備轉交(Send the Success view)***********/
-			String url = PATH_LISTONEPRO_FRONT;
-			RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交lisOnePro_front.jsp
-			successView.forward(req, res);	
+//			String url = PATH_LISTONEPRO_FRONT;
+//			RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交lisOnePro_front.jsp
+//			successView.forward(req, res);	
 			
 			// Send the use back to the form, if there were errors
 //			if (!errorMsgs.isEmpty()) {

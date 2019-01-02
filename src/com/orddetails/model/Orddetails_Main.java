@@ -31,22 +31,23 @@ public class Orddetails_Main {
 //		System.out.println("成功刪除" + orddetailsJDBCDAO.delete("20181212-000001") + "筆");
 			
 //		//單筆查詢
-//		OrddetailsVO orddetailsVO2 = orddetailsJDBCDAO.findByPK("20181212-000001");
-//	    System.out.println(orddetailsVO2.getOrd_no());
+//		List<OrddetailsVO> orddetailsVOList = orddetailsJDBCDAO.findByPK("20190102-000037");
+//		for(OrddetailsVO orddetailsVO2 : orddetailsVOList ) {
+//		System.out.println(orddetailsVO2.getOrd_no());
 //	    System.out.println(orddetailsVO2.getPro_no());
 //	    System.out.println(orddetailsVO2.getOrd_probonuns());
 //	    System.out.println(orddetailsVO2.getPro_count());
 //	    System.out.println("-----------------------------------------");
-	    
+//		}
 //		//全部查詢
-//		List<OrddetailsVO> orddetailsVOList = orddetailsJDBCDAO.getAll();
-//		for(OrddetailsVO orddetailsVO3 : orddetailsVOList ) {
-//		    System.out.println(orddetailsVO3.getOrd_no());
-//		    System.out.println(orddetailsVO3.getPro_no());
-//		    System.out.println(orddetailsVO3.getOrd_probonuns());
-//		    System.out.println(orddetailsVO3.getPro_count());
-//			System.out.println("-----------------------------");
-//		}	    
+		List<OrddetailsVO> orddetailsVOList = orddetailsJDBCDAO.getAll();
+		for(OrddetailsVO orddetailsVO3 : orddetailsVOList ) {
+		    System.out.println(orddetailsVO3.getOrd_no());
+		    System.out.println(orddetailsVO3.getPro_no());
+		    System.out.println(orddetailsVO3.getOrd_probonuns());
+		    System.out.println(orddetailsVO3.getPro_count());
+			System.out.println("-----------------------------");
+		}	    
 	    
 	    
 	    

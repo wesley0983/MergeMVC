@@ -146,11 +146,12 @@ public class OrddetailsJDBCDAO implements Orddetails_interface{
 	}
 
 	@Override
-	public OrddetailsVO findByPK(String ord_no) {
+	public List<OrddetailsVO>  findByPK(String ord_no) {
 		OrddetailsVO orddetailsVO = null;
         Connection con = null; 
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		List<OrddetailsVO> list = new ArrayList();
 		try {
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 			ps = con.prepareStatement(SELECT_FINDBYPK_ORD);
@@ -163,6 +164,7 @@ public class OrddetailsJDBCDAO implements Orddetails_interface{
 				orddetailsVO.setPro_no(rs.getString("PRO_NO"));
 				orddetailsVO.setOrd_probonuns(rs.getInt("ORD_PROBONUNS"));
 				orddetailsVO.setPro_count(rs.getInt("PRO_COUNT"));
+			    list.add(orddetailsVO);
 			}
 			
 		} catch (SQLException e) {
@@ -194,7 +196,7 @@ public class OrddetailsJDBCDAO implements Orddetails_interface{
 				}
 			}
 		}
-		return orddetailsVO;
+		return list;
 	}
 
 	@Override

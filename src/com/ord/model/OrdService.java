@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import com.orddetails.model.OrddetailsVO;
+import com.sun.javafx.collections.MappingChange.Map;
 
 public class OrdService {
 	
@@ -29,6 +30,14 @@ public class OrdService {
 		
 		
 		return ordVO;
+	}
+	
+	public OrdVO getOneOrd (String ord_no) {
+		return ordDAO.findByPK(ord_no);
+	}
+	
+	public List<OrdVO> getAll(){
+		return ordDAO.getAll();
 	}
 	
 //	public OrdDAO addOrd(String Mem_no ,)

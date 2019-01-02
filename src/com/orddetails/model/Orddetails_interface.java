@@ -16,7 +16,7 @@ public interface Orddetails_interface {
 	public abstract int delete (String ord_no);
 	
 	//單筆查詢
-	OrddetailsVO findByPK (String ord_no);
+	List<OrddetailsVO> findByPK (String ord_no);
 	//多筆查詢
 	public abstract List<OrddetailsVO> getAll();
 	

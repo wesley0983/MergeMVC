@@ -8,7 +8,7 @@
 <%
 	List<ProductVO> proVOList = (List<ProductVO>) request.getAttribute("proVOList");
 // 	Map<String , String> pro_countMap = (Map<String , String>) request.getAttribute("hAll");
-
+    
 
 %>
 <jsp:useBean id="proclassSvc" scope="page" class="com.productclass.model.ProductClassService" />
@@ -327,12 +327,13 @@
                                                                                     
 																					</tbody>
 																				</table>
+																				    <div>
+																				    	
+																				    </div>
 																					<div>
-																		
 																						<input type="submit" value="去買單">
 																						<input type="hidden" name="ord_amount" value="test"> 
 																						<input type="hidden" name="action" value="insert">
-																						
 																					</div>
 																				</FORM>
 																	</div>

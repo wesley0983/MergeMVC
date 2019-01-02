@@ -19,5 +19,5 @@ public interface OrdDAO_interface {
 	List<OrdVO> getAll();
 	
 	//同時新增部門與員工 (實務上並不常用, 但,可用在訂單主檔與明細檔一次新增成功)
-    public void insertWithOrdds( OrdVO ordVO , List<OrddetailsVO> list);
+    public String insertWithOrdds( OrdVO ordVO , List<OrddetailsVO> list);
 }

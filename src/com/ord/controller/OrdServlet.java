@@ -34,7 +34,7 @@ public class OrdServlet extends HttpServlet {
 	private static final String PATH_FRONT_LIST_ALL_PRO = "/front-end/pro/listAllPro_front.jsp";
 	private static final String PATH_FRONT_LIST_ONE_PRO = "/front-end/pro/listOnePro_front.jsp";
 	private static final String PATH_SHOPPINGCART_FRONT = "/front-end/pro/shoppingcart_front.jsp";
-	
+	private static final String PATH_ORD_FRONT = "/front-end/pro/ord_front.jsp";
 	
 	
 
@@ -158,7 +158,6 @@ if ("insert".equals(action)) { //來自shoppingcart_front.jsp的請求
 	                	Integer pro_bonus = proSvc1.getOneProduct(pro_no[i]).getPro_bonus();
 	                	ord_amount += pro_bonus;
 						testList.add(i, new OrddetailsVO(pro_no[i] , pro_bonus,666));
-	                	System.out.println("checkbox:" + pro_no[i]);
 	        			ShoppingcartDAO cartDAO = new ShoppingcartDAO();
 	        			cartDAO.delete(mem_no, pro_no[i]);
 	                }
@@ -179,7 +178,7 @@ if ("insert".equals(action)) { //來自shoppingcart_front.jsp的請求
 				ordVO.setOrd_backdeldate(ord_backdeldate);
 				ordVO.setOrd_amount(ord_amount);
 				ordVO.setOrd_backamount(ord_backamount);
-				ordDAO.insertWithOrdds(ordVO, testList);
+				String ord_no = ordDAO.insertWithOrdds(ordVO, testList);
 
 
 
@@ -209,7 +208,8 @@ if ("insert".equals(action)) { //來自shoppingcart_front.jsp的請求
 				
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = PATH_LIST_ALL_PRO;
+				String url = PATH_ORD_FRONT;
+				req.setAttribute("ord_no", ord_no);
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllPro.jsp
 				successView.forward(req, res);				
 				

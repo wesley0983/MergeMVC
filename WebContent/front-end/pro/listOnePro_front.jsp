@@ -19,6 +19,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 		<title>商品詳情</title>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.css" />
 		<!--[if lt IE 9]>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -256,12 +257,8 @@
 								    							</div>
 								    						</div>
 								    						<div>
-								    							<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/shoppingCartServlet/shoppingCartServlet.do" name="form1" enctype="multipart/form-data">
-								    							<input type="submit" value="加入購物車">
-								    							<input class="text_box" name="pro_count" type="hidden" value="1" />
-								    							<input type="hidden" name="pro_no" value="<%= proVO.getPro_no() %>">
-								    							<input type="hidden" name="action" value="insert">
-								    							</FORM>
+								    							<button id="btn1" type="button" value="<%= proVO.getPro_no() %>">加入購物車</button>
+								    							
 								    						</div>
 								    						<div>
 								    							<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/shoppingCartServlet/shoppingCartServlet.do" name="form1" enctype="multipart/form-data">
@@ -305,7 +302,7 @@
 			</div>
 		</div>
 		
-		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.js" type="text/javascript"></script>
 		<script src="https://code.jquery.com/jquery.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script type="text/javascript"> 
@@ -322,6 +319,44 @@
 				$("#num").keyup(function(){
 					t.val(parseInt(t.val()))
 				})
+				
+				//****************************************
+				$("#btn1").on('click', function () {
+					$.ajax({
+						 type: "POST",
+						 url: "<%= request.getContextPath()%>/shoppingCartServlet/shoppingCartServlet.do",
+						 data: creatQueryString($(this).val(), $('#num').val()),
+						 dataType: "json",
+						 success: function (data){
+							 
+					     },
+					     error: function(){alert("AJAX-class發生錯誤囉!")}
+			         });
+			        swal({
+			            title: "成功加入購物車",
+			            html: "按下確定前往購物車",
+			            type: "success", // type can be "success", "error", "warning", "info", "question"
+			            showCancelButton: true,
+			        	showCloseButton: true,
+			        }).then(
+			        	   function (result) {
+		                if (result) {
+		                	window.location.replace("<%= request.getContextPath()%>/shoppingCartServlet/shoppingCartServlet.do?action=getAll_For_Display"); 
+		                }
+		            }, function(dismiss) { // dismiss can be "cancel" | "overlay" | "esc" | "cancel" | "timer"
+		            		
+			        });
+			    });
+				function creatQueryString(buttonid,pro_count){
+					
+					var queryString= {"action":"insert", "pro_no":buttonid, "pro_count":pro_count};
+					console.log(queryString);
+					return queryString;
+				}
+				//****************************************
+				
+				
+				
 				
 				// function setTotal(){
 				// 	$("#total").html((parseInt(t.val())*3.95).toFixed(2));
