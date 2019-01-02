@@ -33,6 +33,9 @@ public class OrdServlet extends HttpServlet {
 	//-------------------------前端路徑---------------------//
 	private static final String PATH_FRONT_LIST_ALL_PRO = "/front-end/pro/listAllPro_front.jsp";
 	private static final String PATH_FRONT_LIST_ONE_PRO = "/front-end/pro/listOnePro_front.jsp";
+	private static final String PATH_SHOPPINGCART_FRONT = "/front-end/pro/shoppingcart_front.jsp";
+	
+	
 	
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
@@ -46,21 +49,17 @@ public class OrdServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 
-if ("insert".equals(action)) { //來自addPro.jsp的請求
+if ("insert".equals(action)) { //來自shoppingcart_front.jsp的請求
 			
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
-System.out.println("test");
 			try {
 				/***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/
 				String integerReg = "([0-9]{0,7})";
 				String[] pro_no = req.getParameterValues("pro_no");
-                for(int i = 0 ; i < pro_no.length ; i ++) {
-                	
-                	System.out.println("checkbox:" + pro_no[i]);
-                }
+				
 //				String pro_no = req.getParameter("pro_no");
 //				System.out.println("pro_no" + pro_no);
 //				if(pro_no == null || pro_no.trim().length() == 0) {
@@ -144,7 +143,7 @@ System.out.println("test");
 //					errorMsgs.add("退貨金額請勿空白");
 //				}
 				
-				
+				/***************************2.開始新增資料***************************************/
 
 				/***********測試*************/
 				/*訂單有一些會是null與0的情況
@@ -152,16 +151,21 @@ System.out.println("test");
 				 */
 				ProductService proSvc1 = new ProductService();
 				List<OrddetailsVO> testList = new ArrayList<OrddetailsVO>(); // 準備置入訂單數量
-				for(int i = 0 ; i < pro_no.length ; i ++) {
-                	Integer pro_bonus = proSvc1.getOneProduct(pro_no[i]).getPro_bonus();
-                	ord_amount += pro_bonus;
-					testList.add(i, new OrddetailsVO(pro_no[i] , pro_bonus,666));
-                	System.out.println("checkbox:" + pro_no[i]);
-                }
-				for(int i = 0 ; i < testList.size() ; i ++) {
-					System.out.println(testList.get(i).getPro_no());
+				if(pro_no == null) {
+					errorMsgs.add("未選擇商品");
+				} else {
+					for(int i = 0 ; i < pro_no.length ; i ++) {
+	                	Integer pro_bonus = proSvc1.getOneProduct(pro_no[i]).getPro_bonus();
+	                	ord_amount += pro_bonus;
+						testList.add(i, new OrddetailsVO(pro_no[i] , pro_bonus,666));
+	                	System.out.println("checkbox:" + pro_no[i]);
+	        			ShoppingcartDAO cartDAO = new ShoppingcartDAO();
+	        			cartDAO.delete(mem_no, pro_no[i]);
+	                }
+					for(int i = 0 ; i < testList.size() ; i ++) {
+						System.out.println(testList.get(i).getPro_no());
+					}
 				}
-						
 				
 				/****訂單項目測試***/
 				OrdJDBCDAO ordDAO = new OrdJDBCDAO();
@@ -177,65 +181,31 @@ System.out.println("test");
 				ordVO.setOrd_backamount(ord_backamount);
 				ordDAO.insertWithOrdds(ordVO, testList);
 
-				
-				//從reids取得getAll
-//				ProductService proSvc1 = new ProductService();
-//				ShoppingcartDAO cartDAO = new ShoppingcartDAO();
-//				List<ProductVO> proVOList = new ArrayList<>();
-//				List<Integer> pro_countList = new ArrayList<>();
-//				Map<String , String> hAll =  cartDAO.getAll(mem_no);
-//				for(String return_pro_no : hAll.keySet()) {
-//					proVOList.add(proSvc1.getOneProduct(return_pro_no));
-//					pro_countList.add(Integer.parseInt(hAll.get(pro_no)));
-//				}
-//				Class clz = Class.forName("com.orddetails.model.OrddetailsVO");
-//				OrddetailsVO[] students = (OrddetailsVO[]) Array.newInstance(clz, hAll.size());
-//                System.out.println("mapsize:"+students);
-//				OrdJDBCDAO ordDAO = new OrdJDBCDAO();
-//				List<OrddetailsVO> testList = new ArrayList<OrddetailsVO>(); // 準備置入訂單數量
-//				
-//				OrddetailsVO orddetailsVO_1 = new OrddetailsVO();
-//				orddetailsVO_1.setPro_no("P001");//需要抓取商品編號
-//				orddetailsVO_1.setOrd_probonuns(666);
-//				orddetailsVO_1.setPro_count(777);
-//				
-//				testList.add(orddetailsVO_1);
-//				
-//				ordDAO.insertWithOrdds( ordVO, testList);
-				
-				
-//				ProductVO proVO = new ProductVO();
-//				proVO.setPro_classid(pro_classid);
-//		        proVO.setPro_name(pro_name);
-//		        proVO.setPro_pic(pro_pic);//圖片給空
-//		        proVO.setPro_pic_ext(pic_ext);
-//		        proVO.setPro_format(pro_format);
-//		        proVO.setPro_bonus(pro_bonus);
-//		        proVO.setPro_stock(pro_stock);
-//		        proVO.setPro_safestock(pro_safestock);
-//		    	proVO.setPro_details(pro_details);
-//		    	proVO.setPro_shelve(pro_shelve);
-//		    	proVO.setPro_all_assess(pro_all_assess);
-//		    	proVO.setPro_all_assessman(pro_all_assessman);
-		    	
 
 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					System.out.println(errorMsgs);
 //					req.setAttribute("proVO", proVO); // 含有輸入格式錯誤的proVO物件,也存入req
+					ProductService proSvc = new ProductService();
+					ShoppingcartDAO cartDAO = new ShoppingcartDAO();
+					List<ProductVO> proVOList = new ArrayList<>();
+					List<Integer> pro_countList = new ArrayList<>();
+					Map<String , String> hAll =  cartDAO.getAll(mem_no);
+					for(String pro_noAll : hAll.keySet()) {
+						proVOList.add(proSvc.getOneProduct(pro_noAll));
+//						pro_countList.add(Integer.parseInt(hAll.get(pro_no)));
+					}
+					req.setAttribute("proVOList", proVOList);
+					req.setAttribute("hAll", hAll);
 					RequestDispatcher failureView = req
-							.getRequestDispatcher(PATH_ADDPRO);
+							.getRequestDispatcher(PATH_SHOPPINGCART_FRONT);
 					failureView.forward(req, res);
 					return;
 				}
 				
-				/***************************2.開始新增資料***************************************/
-				OrdService ordSvc = new OrdService();
-//				ordSvc.addOrd(mem_no, ord_deldate, ord_status, ord_backdeldate, ord_amount, ord_backamount, list)
-				//需要用add+訂單明細的list
-//				proVO = proSvc.addPro(pro_classid,pro_name,pro_pic,pic_ext,pro_format,
-//						pro_bonus,pro_stock,pro_safestock,pro_details,pro_shelve,pro_all_assess,pro_all_assessman);
+				
+
 				
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
@@ -245,11 +215,17 @@ System.out.println("test");
 				
 				/***************************其他可能的錯誤處理**********************************/
 			} catch (Exception e) {
-//				RequestDispatcher failureView = req
-//						.getRequestDispatcher(PATH_FRONT_LIST_ALL_PRO);
-//				failureView.forward(req, res);
+				RequestDispatcher failureView = req
+						.getRequestDispatcher(PATH_SHOPPINGCART_FRONT);
+				failureView.forward(req, res);
 				e.printStackTrace();
 			}
+		}
+if ("getAll_display".equals(action)) { //來自shoppingcart_front.jsp的請求
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
 		}
 
 	}

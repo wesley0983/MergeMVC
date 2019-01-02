@@ -1,6 +1,7 @@
 package com.shoppingcart.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.json.JSONObject;
 
 import com.product.model.ProductService;
 import com.product.model.ProductVO;
@@ -40,6 +43,7 @@ public class ShoppingCartServlet extends HttpServlet{
 		
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+		System.out.println("action:"+action);
 		if ("insert".equals(action)) { //來自listOnePro_front.jsp的請求
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -133,6 +137,7 @@ public class ShoppingCartServlet extends HttpServlet{
 			successView.forward(req, res);	
 		}
 		if("delete".equals(action)) {
+			System.out.println("有近來");
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
@@ -156,15 +161,22 @@ public class ShoppingCartServlet extends HttpServlet{
 			Map<String , String> hAll =  cartDAO.getAll(mem_no);
 			for(String pro_no1 : hAll.keySet()) {
 				proVOList.add(proSvc.getOneProduct(pro_no1));
-//				pro_countList.add(Integer.parseInt(hAll.get(pro_no)));
 			}
 			
+			
 			/***************************4.準備轉交(Send the Success view)***********/
-			req.setAttribute("proVOList", proVOList);
-			req.setAttribute("hAll", hAll);
-			String url = PATH_SHOPPINGCART;
-			RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交lisOnePro_front.jsp
-			successView.forward(req, res);	
+			res.setContentType("text/plain");
+			res.setCharacterEncoding("UTF-8");
+			PrintWriter out = res.getWriter();
+			String job = new JSONObject().toString();//需要回傳不然ajax會出錯
+			out.write(job);
+			out.flush();
+			out.close();
+//			req.setAttribute("proVOList", proVOList);
+//			req.setAttribute("hAll", hAll);
+//			String url = PATH_SHOPPINGCART;
+//			RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交lisOnePro_front.jsp
+//			successView.forward(req, res);	
 		
 			
 		}

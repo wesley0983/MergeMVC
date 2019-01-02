@@ -8,7 +8,7 @@
 <%
 	List<ProductVO> proVOList = (List<ProductVO>) request.getAttribute("proVOList");
 // 	Map<String , String> pro_countMap = (Map<String , String>) request.getAttribute("hAll");
-    Integer test ;
+
 
 %>
 <jsp:useBean id="proclassSvc" scope="page" class="com.productclass.model.ProductClassService" />
@@ -269,6 +269,7 @@
 																			</div>
 																		
 																				<!-- 所有商品 -->
+																				<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/ord/ord.do" name="form1" enctype="multipart/form-data">
 																				<table class="table table-hover ">
 																					<thead>
 																						<tr class="tablebgc">
@@ -282,7 +283,7 @@
 																					</thead>
 																					<tbody>
 																						<jsp:useBean id="productClassSvc" scope="page" class="com.productclass.model.ProductClassService" />
-																						<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/ord/ord.do" name="form1" enctype="multipart/form-data">
+																						
 																						<c:forEach var="proVO" items="${proVOList}">
 																							<tr>
 																								<td>
@@ -313,6 +314,7 @@
 																								</td>
 																								<!-- 下拉式按鈕 -->
 																								<td>
+																								    <button type="button" class="deletedata" value="${proVO.pro_no}"  >刪除</button>
 <%-- 																									<FORM METHOD="post" ACTION="<%= request.getContextPath()%>/shoppingCartServlet/shoppingCartServlet.do" name="form1" enctype="multipart/form-data"> --%>
 <%-- 																										<input type="hidden" name="pro_no" value="${proVO.pro_no}"> --%>
 <!-- 																										<input type="submit" value="刪除"> -->
@@ -321,18 +323,18 @@
 																								</td>
 																							</tr>
 																						</c:forEach>
-																						<div>
-																	
-																							<input type="submit" value="去買單">
-																							
-																							<input type="hidden" name="ord_amount" value="test"> 
-																							<input type="hidden" name="action" value="insert">
-																							
-																						</div>
-                                                                                    </FORM>
+																						
+                                                                                    
 																					</tbody>
 																				</table>
-																				
+																					<div>
+																		
+																						<input type="submit" value="去買單">
+																						<input type="hidden" name="ord_amount" value="test"> 
+																						<input type="hidden" name="action" value="insert">
+																						
+																					</div>
+																				</FORM>
 																	</div>
 																</div>
 															</div>
@@ -351,13 +353,10 @@
 														<div class="container-fluid warpwidth">
 															<div class="row">
 																<div>
-																	<h2 class="fontsize">?件商品
-																	${test }
-																	</h2>
+																	<h2 class="fontsize">?件商品</h2>
 																</div>
 																<!-- 關鍵字搜尋 -->
 																<div>
-																	
 																	<input type="submit" value="去買單">
 																	
 																	<input type="hidden" name="ord_amount" value="test"> 
@@ -379,21 +378,38 @@
 			<script src="https://code.jquery.com/jquery.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 			<script type="text/javascript">
-				// document.getElementById("display").style.display = 'none';
-				//    $(function() {  //將圖片預覽
-				//    	$('input[type=file]').change(function() {
-				//      	var input = $(this);
-				//      	document.getElementById("preset").style.display = 'none';
-				//      	document.getElementById("display").style.display = 'block';
-				//      	if(!!this.files && !!this.files[0]) {
-				//        	var reader = new FileReader();
-				//          reader.onload = function(e) {
-				//          	$('#pre' + input.prop('id').substr(4,2)).prop('src', e.target.result);
-				//          }
-				//          reader.readAsDataURL(this.files[0]);
-				//        }
-				//      });
-				//    });
+				$(document).ready(function(){
+					$('#testid').click(function(){
+						
+						console.log("hi");
+					})
+					$('.deletedata').each( function() {
+						$(this).click( function() {
+	// 						var imgsrc = $(this).attr("value");
+							var val = $(this).val();
+						    alert(val);
+							$.ajax({
+								 type: "POST",
+								 url: "shoppingCartServlet.do",
+								 data: creatQueryString(val, ""),
+								 dataType: "json",
+								 success: function (data){
+									 alert("<%= request.getContextPath()%>/shoppingcart_front.jsp")
+									 window.location.replace("<%= request.getContextPath()%>/shoppingCartServlet/shoppingCartServlet.do?action=getAll_For_Display"); 
+							     },
+							     error: function(){alert("AJAX-class發生錯誤囉!")}
+					         })
+						})
+					})
+                    
+                    
+				})
+				function creatQueryString(buttonid){
+					
+					var queryString= {"action":"delete", "pro_no":buttonid};
+					console.log(queryString);
+					return queryString;
+				}
 			</script>							
 	</body>						
 </html>						
