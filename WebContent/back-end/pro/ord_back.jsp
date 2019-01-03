@@ -328,12 +328,6 @@
 											
 											<!-- 所有商品 -->
 											<c:forEach var="ordListVO" items="${listAll}">
-											<% for( int i = 0 ; i <listAll.size() ; i ++){ 
-											
-											OrddetailsService orddetailsSvc = new OrddetailsService();
-										    List<OrddetailsVO> listOne = orddetailsSvc.getOneOrd(ordSvc.getOneOrd(listAll.get(i).getOrd_no()).getOrd_no());
-											pageContext.setAttribute("listOne",listOne);
-											%>
 											
 												<table class="table table-hover ">
 													<thead>
@@ -362,8 +356,8 @@
 														</tr>
 													</thead>
 													<tbody>
-														<jsp:useBean id="productClassSvc" scope="page" class="com.productclass.model.ProductClassService" />
-														<c:forEach var="orddetails" items="${listOne}" >
+														
+														<c:forEach var="orddetails" items="${orddetailsSvc.getOneOrd(ordSvc.getOneOrd(ordListVO.ord_no).getOrd_no())}" >
 															<tr>
 																<!-- 商品圖片名稱 -->
 																<td style="text-align: left;">
@@ -427,7 +421,6 @@
 
 													</tbody>
 												</table>
-												<%} %>
 											</c:forEach>		
 										</div>
 									</div>

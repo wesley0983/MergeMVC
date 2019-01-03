@@ -7,7 +7,7 @@ import java.util.List;
 public class ProductClassJDBCDAO implements ProductClassDAO_interface{
 	private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
 	private static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
-	private static final String USER = "test";
+	private static final String USER = "CA105G1";
 	private static final String PASSWORD = "123456";
 	//新增
 	private static final String INSERT = "Insert into PRODUCTCLASS(PRO_CLASSID,PRO_CLASSNAME) values ('PT'||LPAD(to_char(PRODUCTCLASS_SEQ.NEXTVAL), 3, '0'),?)";

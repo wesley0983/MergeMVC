@@ -11,7 +11,7 @@ public class OrdJDBCDAO implements OrdDAO_interface{
 	
 	private static final String DRIVER = "oracle.jdbc.driver.OracleDriver"; 
 	private static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
-	private static final String USER = "test";
+	private static final String USER = "CA105G1";
 	private static final String PASSWORD = "123456";
 	//新增
 	private static final String INERT_INTO = "Insert into ORD (ORD_NO,MEM_NO,ORD_DATE,ORD_DELDATE,ORD_STATUS,ORD_BACKDELDATE,ORD_AMOUNT,ORD_BACKAMOUNT) values (to_char(sysdate,'yyyymmdd')||'-'||LPAD(to_char(ORD_SEQ.NEXTVAL),6, '0'),?,CURRENT_TIMESTAMP,?,?,?,?,?)";

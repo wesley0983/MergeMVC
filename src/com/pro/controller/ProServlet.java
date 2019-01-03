@@ -37,7 +37,7 @@ public class ProServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		
-		
+		System.out.println("action:" +action);
 if ("getOne_For_Display".equals(action)) { //來自select_page.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();

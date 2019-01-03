@@ -19,6 +19,7 @@ import com.product.model.ProductVO;
 import com.productclass.model.ProductClassService;
 import com.productclass.model.ProductClassVO;
 import com.shoppingcart.model.ShoppingcartDAO;
+import com.shoppingcart.model.ShoppingcartVO;
 
 import sun.misc.IOUtils;
 
@@ -142,6 +143,8 @@ if ("insert".equals(action)) { //來自shoppingcart_front.jsp的請求
 //				} catch (NumberFormatException e) {
 //					errorMsgs.add("退貨金額請勿空白");
 //				}
+				//數量
+//				String[] pro_count = req.getParameterValues("pro_count"); 
 				
 				/***************************2.開始新增資料***************************************/
 
@@ -149,16 +152,18 @@ if ("insert".equals(action)) { //來自shoppingcart_front.jsp的請求
 				/*訂單有一些會是null與0的情況
 				 * 前端部分因為有兩個form表單的問題，所以刪除按鈕可能需要用ajax處理
 				 */
+				
 				ProductService proSvc1 = new ProductService();
 				List<OrddetailsVO> testList = new ArrayList<OrddetailsVO>(); // 準備置入訂單數量
 				if(pro_no == null) {
 					errorMsgs.add("未選擇商品");
 				} else {
 					for(int i = 0 ; i < pro_no.length ; i ++) {
+						ShoppingcartDAO cartDAO = new ShoppingcartDAO();
 	                	Integer pro_bonus = proSvc1.getOneProduct(pro_no[i]).getPro_bonus();
+	                	Integer pro_count = cartDAO.findByCount(mem_no, pro_no[i]);
 	                	ord_amount += pro_bonus;
-						testList.add(i, new OrddetailsVO(pro_no[i] , pro_bonus,666));
-	        			ShoppingcartDAO cartDAO = new ShoppingcartDAO();
+						testList.add(i, new OrddetailsVO(pro_no[i] , pro_bonus,pro_count));
 	        			cartDAO.delete(mem_no, pro_no[i]);
 	                }
 					for(int i = 0 ; i < testList.size() ; i ++) {

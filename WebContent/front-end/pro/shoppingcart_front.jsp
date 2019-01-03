@@ -305,6 +305,7 @@
 																								<!-- 商品數量 -->
 																								<td>
 																									${hAll[proVO.pro_no]}
+<%-- 																									<input type="hidden" name="pro_count" value="${hAll[proVO.pro_no]}"> --%>
 																								</td>
 																								<!-- 商品總計 -->
 																								<td>
